@@ -54,9 +54,12 @@ public class EstudianteServiceTest {
         var karol = new Estudiante(2, "Karol", "Jimenez", 21);
         estudianteService.addNew(karol);
 
-        var estudiantes = this.estudianteService.getAll();
+        assertThat(this.estudianteService.getAll()).hasSize(4);
 
-        assertThat(estudiantes).hasSize(4);
+        var maria = new Estudiante(32, "Maria", "Rojas", 21);
+        estudianteService.addNew(maria);
+
+        assertThat(this.estudianteService.getAll()).hasSize(4);
     }
 
     @Test
@@ -64,20 +67,25 @@ public class EstudianteServiceTest {
 
         estudianteService.deleteStudent(1);
 
-        var estudiantes = this.estudianteService.getAll();
+        assertThat(this.estudianteService.getAll()).hasSize(2);
 
-        assertThat(estudiantes).hasSize(2);
+        estudianteService.deleteStudent(58);
+
+        assertThat(this.estudianteService.getAll()).hasSize(2);
 
     }
 
     @Test
     public void updateStudent() throws Exception {
-        var karol = new Estudiante(32, "Rosalia", "Solano", 25);
-        estudianteService.updateStudent(karol);
+        var rosalia = new Estudiante(32, "Rosalia", "Solano", 25);
+        estudianteService.updateStudent(rosalia);
 
-        var estudiantes = this.estudianteService.getAll();
+        assertThat(this.estudianteService.getAll()).hasSize(3);
 
-        assertThat(estudiantes).hasSize(3);
+        var josefa = new Estudiante(58, "Josefa", "Viquez", 55);
+        estudianteService.updateStudent(josefa);
+
+        assertThat(this.estudianteService.getAll()).hasSize(3);
     }
 
 }

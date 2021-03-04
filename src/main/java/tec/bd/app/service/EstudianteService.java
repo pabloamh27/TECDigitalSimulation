@@ -25,26 +25,41 @@ public class EstudianteService {
     }
 
     public void addNew(Estudiante e) {
-        // Verificar si el estudiante que viene por parametro ya existe en la BD
+        // Verificar si el estudiante ya existe en la Base de datos
+        for (Estudiante estudiante : this.database.getEstudianteTable()) {
+            if (estudiante.getCarne() == e.getCarne()) {
+                System.out.println("\nEstudiante registrado!");
+                return;
+            }
+        }
         this.database.getEstudianteTable().add(e);
     }
 
     public void updateStudent(Estudiante e) {
         // Implementar codigo de actualizacion
-
         // Traer el estudiante con carne X
-        var x = getById(e.getCarne());
-
         // modificar el estudiante con los datos del estudiante e
-        x.setNombre(e.getNombre());
-        x.setApellido(e.getApellido());
-        x.setEdad(e.getEdad());
+        for (Estudiante estudiante : this.database.getEstudianteTable()) {
+            if (estudiante.getCarne() == e.getCarne()) {
+                estudiante.setNombre(e.getNombre());
+                estudiante.setApellido(e.getApellido());
+                estudiante.setEdad(e.getEdad());
+                return;
+            }
+        }
+        System.out.println("\nNo se encontraron coincidencias en la base de datos");
     }
 
     public void deleteStudent(long carne) {
         // implementar codigo de borrado
-        this.database.getEstudianteTable().remove(getById(carne));
+        // HashSet.remove(e);
+        for (Estudiante estudiante : this.database.getEstudianteTable()) {
+            if (estudiante.getCarne() == carne) {
+                this.database.getEstudianteTable().remove(estudiante);
+                return;
+            }
+        }
+        System.out.println("\nNo se encontraron coincidencias en la base de datos");
 
     }
-
 }
