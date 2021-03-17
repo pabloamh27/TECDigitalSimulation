@@ -1,20 +1,23 @@
 package tec.bd.app.dao;
 
-import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.RowAttribute;
 import tec.bd.app.database.set.SetDB;
+import tec.bd.app.database.set.Row;
 import tec.bd.app.domain.Estudiante;
 
 import java.util.List;
 
-public class EstudianteDAOImpl extends GenericSetDAOImpl<Estudiante, Integer> implements EstudianteDAO {
 
-    public EstudianteDAOImpl(SetDB setDB, Class<Estudiante> clazz) {
+public class EstudianteDAOSetImpl extends GenericSetDAOImpl<Estudiante, Integer> implements EstudianteDAOSet {
+
+    public EstudianteDAOSetImpl(SetDB setDB, Class<Estudiante> clazz) {
         super(setDB, clazz);
     }
 
     @Override
     public List<Estudiante> findByLastName(String lastName) {
+
+
         return null;
     }
 
@@ -36,12 +39,11 @@ public class EstudianteDAOImpl extends GenericSetDAOImpl<Estudiante, Integer> im
     @Override
     protected Row entityToRow(Estudiante e) {
         // conversiones de Estudiante a Row
-        return new Row(new RowAttribute[] {
+        return new Row(new RowAttribute [] {
                 new RowAttribute("id", e.getCarne()),
                 new RowAttribute("nombre", e.getNombre()),
                 new RowAttribute("apellido", e.getApellido()),
-                new RowAttribute("edad", e.getEdad())
-        });
+                new RowAttribute("edad", e.getEdad()) });
     }
 
 }

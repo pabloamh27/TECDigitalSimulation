@@ -33,4 +33,5 @@ public class Row {
     public Long longAttributeValue(String name) {
         return (Long) this.attribute(name).getValue();
     }
+
 }

@@ -3,6 +3,7 @@ package tec.bd.app.database.set;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
+
 public class RowTest {
 
     @Test

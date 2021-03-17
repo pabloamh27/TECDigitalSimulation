@@ -4,6 +4,7 @@ import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tec.bd.app.domain.Estudiante;
+import tec.bd.app.service.CursoService;
 import tec.bd.app.service.EstudianteService;
 
 import java.util.Optional;
@@ -17,6 +18,9 @@ public class App  {
 
         ApplicationContext applicationContext = ApplicationContext.init();
         var estudianteService = applicationContext.getEstudianteServiceSet();
+        var cursoService = applicationContext.getCursoService();
+        var profesorService = applicationContext.getProfesorService();
+
 
         Options options = new Options();
 
@@ -214,12 +218,13 @@ public class App  {
                 // Ejemplo: -eln Rojas
                 // Ver todos los estudiantes con un apellido en particular
                 System.out.println("IMPLEMENTAR: Ver todos los estudiantes con un apellido en particular");
-            //------------------------------------------------------------------------
-            // Opciones para curso
+                //------------------------------------------------------------------------
+                // Opciones para curso
 
             } else if(cmd.hasOption("cr")) {
                 // Mostrar todos los estudiantes
                 System.out.println("IMPLEMENTAR: Mostrar todos los cursos");
+                showAllCurses(cursoService);//a medio hacer
 
             } else if(cmd.hasOption("cid")) {
                 // Mostrar un curso por id
@@ -241,8 +246,8 @@ public class App  {
                 // Ver cursos por departamento
                 System.out.println("IMPLEMENTAR: ver cursos por departamento");
 
-            //------------------------------------------------------------------------
-            // Opciones para profesor
+                //------------------------------------------------------------------------
+                // Opciones para profesor
 
             } else if(cmd.hasOption("pr")) {
                 // Mostrar todos los profesores
@@ -269,7 +274,7 @@ public class App  {
                 System.out.println("IMPLEMENTAR: ver profesores por ciudad");
 
 
-            //------------------------------------------------------------------------
+                //------------------------------------------------------------------------
 
 
             } else if(cmd.hasOption("h")) {
@@ -324,5 +329,9 @@ public class App  {
     public static void updateStudent(EstudianteService estudianteService, int carne, String nombre, String apellido, int edad) {
         var nuevoEstudiante = new Estudiante(carne,nombre, apellido, edad);
         estudianteService.updateStudent(nuevoEstudiante);
+    }
+
+    public static void showAllCurses(CursoService cursoService){
+        //System.out.println( similar a showAllStudents);
     }
 }

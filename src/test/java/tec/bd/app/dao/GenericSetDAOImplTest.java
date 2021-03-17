@@ -2,8 +2,8 @@ package tec.bd.app.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.RowAttribute;
+import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.SetDB;
 import tec.bd.app.domain.Entity;
 
@@ -126,3 +126,4 @@ public class GenericSetDAOImplTest {
     }
 
 }
+

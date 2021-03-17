@@ -2,8 +2,8 @@ package tec.bd.app.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.RowAttribute;
+import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.SetDB;
 import tec.bd.app.domain.Entity;
 import tec.bd.app.domain.Estudiante;
@@ -14,9 +14,9 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class EstudianteDAOImplTest {
+public class EstudianteDAOSetImplTest {
 
-    private EstudianteDAOImpl estudianteDAO;
+    private EstudianteDAOSetImpl estudianteDAO;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -46,7 +46,7 @@ public class EstudianteDAOImplTest {
             add(pedroRow);
         }});
         var setDB = new SetDB(tables);
-        this.estudianteDAO = new EstudianteDAOImpl(setDB, Estudiante.class);
+        this.estudianteDAO = new EstudianteDAOSetImpl(setDB, Estudiante.class);
     }
 
     @Test

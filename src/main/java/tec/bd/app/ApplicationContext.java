@@ -1,14 +1,13 @@
 package tec.bd.app;
 
-import tec.bd.app.dao.EstudianteDAO;
-import tec.bd.app.dao.EstudianteDAOImpl;
+import tec.bd.app.dao.*;
 import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.RowAttribute;
 import tec.bd.app.database.set.SetDB;
+import tec.bd.app.domain.Curso;
 import tec.bd.app.domain.Entity;
 import tec.bd.app.domain.Estudiante;
-import tec.bd.app.service.EstudianteService;
-import tec.bd.app.service.EstudianteServiceImpl;
+import tec.bd.app.service.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,8 +16,15 @@ import java.util.Set;
 public class ApplicationContext {
 
     private SetDB setDB;
-    private EstudianteDAO estudianteSetDAO;
+    private EstudianteDAOSet estudianteDAOSet;
     private EstudianteService estudianteServiceSet;
+
+    private CursoDAO cursoDAO;
+    private CursoService cursoService;
+
+    private ProfesorSetDAO profesorSetDAO;
+    private ProfesorService profesorService;
+
 
     private ApplicationContext() {
 
@@ -27,8 +33,14 @@ public class ApplicationContext {
     public static ApplicationContext init() {
         ApplicationContext applicationContext = new ApplicationContext();
         applicationContext.setDB = initSetDB();
-        applicationContext.estudianteSetDAO = initEstudianteSetDAO(applicationContext.setDB);
-        applicationContext.estudianteServiceSet = initEstudianteSetService(applicationContext.estudianteSetDAO);
+        applicationContext.estudianteDAOSet = initEstudianteSetDAO(applicationContext.setDB);
+        applicationContext.estudianteServiceSet = initEstudianteSetService(applicationContext.estudianteDAOSet);
+
+        applicationContext.cursoDAO = initCursoSetDAO(applicationContext.setDB);
+        applicationContext.cursoService = initCursoService(applicationContext.cursoDAO);
+
+
+
         return applicationContext;
     }
 
@@ -84,12 +96,20 @@ public class ApplicationContext {
         return new SetDB(tables);
     }
 
-    private static EstudianteDAO initEstudianteSetDAO(SetDB setDB) {
-        return new EstudianteDAOImpl(setDB, Estudiante.class);
+    private static EstudianteDAOSet initEstudianteSetDAO(SetDB setDB) {
+        return new EstudianteDAOSetImpl(setDB, Estudiante.class);
     }
 
-    private static EstudianteService initEstudianteSetService(EstudianteDAO estudianteDAO) {
-        return new EstudianteServiceImpl(estudianteDAO);
+    private static EstudianteService initEstudianteSetService(EstudianteDAOSet estudianteDAOSet) {
+        return new EstudianteServiceImpl(estudianteDAOSet);
+    }
+
+    private static CursoDAO initCursoSetDAO(SetDB setDB){
+        return new CursoDAOImpl(setDB, Curso.class);
+    }
+
+    private static CursoService initCursoService(CursoDAO cursoDAO){
+        return new CursoServiceImpl(cursoDAO);
     }
 
 
@@ -97,12 +117,25 @@ public class ApplicationContext {
         return this.setDB;
     }
 
-    public EstudianteDAO getEstudianteSetDAO() {
-        return this.estudianteSetDAO;
+    public EstudianteDAOSet getEstudianteSetDAO() {
+        return this.estudianteDAOSet;
     }
 
     public EstudianteService getEstudianteServiceSet() {
         return this.estudianteServiceSet;
     }
+
+    public CursoDAO getCursoSetDAO(){
+        return this.cursoDAO;
+    }
+
+    public  CursoService getCursoService(){
+        return this.cursoService;
+    }
+
+    public ProfesorSetDAO getProfesorDAO(){return this.profesorSetDAO;}
+
+    public ProfesorService getProfesorService(){return this.profesorService;}
+
 
 }
