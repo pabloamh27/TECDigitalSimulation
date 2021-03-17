@@ -4,9 +4,9 @@ import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.SetDB;
 import tec.bd.app.domain.Profesor;
 
-public class ProfesorSetDAOImpl extends GenericSetDAOImpl<Profesor, Integer> implements ProfesorSetDAO {
+public class ProfesorDAOImpl extends GenericSetDAOImpl<Profesor, Integer> implements ProfesorDAO {
 
-    protected ProfesorSetDAOImpl(SetDB setDB, Class<Profesor> clazz) {
+    protected ProfesorDAOImpl(SetDB setDB, Class<Profesor> clazz) {
         super(setDB, clazz);
     }
 

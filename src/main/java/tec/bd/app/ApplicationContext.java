@@ -22,7 +22,7 @@ public class ApplicationContext {
     private CursoDAO cursoDAO;
     private CursoService cursoService;
 
-    private ProfesorSetDAO profesorSetDAO;
+    private ProfesorDAO profesorDAO;
     private ProfesorService profesorService;
 
 
@@ -74,10 +74,38 @@ public class ApplicationContext {
         // Registros de la tabla curso
         // ---------------------------------------------------------------
 
+        // Registros de la tabla cursos
+        var matematicasId = new RowAttribute("id", 5);
+        var matematicasNombre = new RowAttribute("nombre", "Matematicas");
+        var matematicasDept = new RowAttribute("departamento", "Ciencias Exactas");
+        var matematicasCreditos = new RowAttribute("creditos", 4);
+        var matematicasRow = new Row(new RowAttribute[]{ matematicasId, matematicasNombre, matematicasDept, matematicasCreditos });
+
+        var espanolId = new RowAttribute("id", 10);
+        var espanolNombre = new RowAttribute("nombre", "Espanol");
+        var espanolDept = new RowAttribute("departamento", "Lenguajes");
+        var espanolCreditos = new RowAttribute("creditos", 3);
+        var espanolRow = new Row(new RowAttribute[]{ espanolId, espanolNombre, espanolDept, espanolCreditos });
+
+        var civicaId = new RowAttribute("id", 1);
+        var civicaNombre = new RowAttribute("nombre", "Civica");
+        var civicaDept = new RowAttribute("departamento", "Ciencias Sociales");
+        var civicaCreditos = new RowAttribute("creditos", 1);
+        var civicaRow = new Row(new RowAttribute[]{ civicaId, civicaNombre, civicaDept, civicaCreditos });
+
+        var quimicaId = new RowAttribute("id", 4);
+        var quimicaNombre = new RowAttribute("nombre", "Quimica");
+        var quimicaDept = new RowAttribute("departamento", "Ciencias Exactas");
+        var quimicaCreditos = new RowAttribute("creditos", 4);
+        var quimicaRow = new Row(new RowAttribute[]{ quimicaId, quimicaNombre, quimicaDept, quimicaCreditos });
 
         // ---------------------------------------------------------------
         // Registros de la tabla profesor
         // ---------------------------------------------------------------
+
+
+
+
 
 
 
@@ -89,12 +117,20 @@ public class ApplicationContext {
             add(raquelRow);
         }});
 
+        tables.put(Curso.class, new HashSet<>() {{
+            add(matematicasRow);
+            add(quimicaRow);
+            add(espanolRow);
+            add(civicaRow);
+        }});
+
         // Agregar las filas de curso y estudiante a tables
-        // tables.put(Curso.class, new HashSet<>() {{ ... }}
         // tables.put(Profesor.class, new HashSet<>() {{ ... }}
 
         return new SetDB(tables);
     }
+    
+    
 
     private static EstudianteDAOSet initEstudianteSetDAO(SetDB setDB) {
         return new EstudianteDAOSetImpl(setDB, Estudiante.class);
@@ -129,11 +165,11 @@ public class ApplicationContext {
         return this.cursoDAO;
     }
 
-    public  CursoService getCursoService(){
+    public CursoService getCursoService(){
         return this.cursoService;
     }
 
-    public ProfesorSetDAO getProfesorDAO(){return this.profesorSetDAO;}
+    public ProfesorDAO getProfesorDAO(){return this.profesorDAO;}
 
     public ProfesorService getProfesorService(){return this.profesorService;}
 

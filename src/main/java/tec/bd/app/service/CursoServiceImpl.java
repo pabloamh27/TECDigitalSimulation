@@ -3,12 +3,15 @@ package tec.bd.app.service;
 import tec.bd.app.dao.CursoDAO;
 import tec.bd.app.domain.Curso;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CursoServiceImpl implements CursoService{
 
     private CursoDAO cursoDAO;
+    private Arrays table;
 
 
     public CursoServiceImpl(CursoDAO cursoDAO){
@@ -59,11 +62,14 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     public List<Curso> getByDepartment(String department) {
-        //necesita validaciones
-        /*department nulo o vacio
-        * sino es nulo o vacio se va poder llama al dao sino
-        * retorna lista vacía*/
-
-        return null;
+        List<Curso> listaPorDepartamento = new List <Curso>();
+        var cursos : List<Curso> = this.table.stream().map(this::rowToEntity).collect(Collectors.toList());
+        for(int i = 0; i<cursos.size() ; i++) {
+            var actual : Curso = cursos.get(i);
+            if (actual.getDepartament() == departamento) {
+                listaPorDepartamento.add(actual);
+            }
+        }
+        return listaPorDepartamento.stream().collect(Collectors.toList());
     }
 }

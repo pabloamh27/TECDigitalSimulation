@@ -3,6 +3,7 @@ package tec.bd.app;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tec.bd.app.domain.Curso;
 import tec.bd.app.domain.Estudiante;
 import tec.bd.app.service.CursoService;
 import tec.bd.app.service.EstudianteService;
@@ -222,25 +223,38 @@ public class App  {
                 // Opciones para curso
 
             } else if(cmd.hasOption("cr")) {
-                // Mostrar todos los estudiantes
-                System.out.println("IMPLEMENTAR: Mostrar todos los cursos");
+                // Mostrar todos los cursos
                 showAllCurses(cursoService);//a medio hacer
 
             } else if(cmd.hasOption("cid")) {
-                // Mostrar un curso por id
-                System.out.println("IMPLEMENTAR: Mostrar curso por id");
+                var id = cmd.getOptionValue("cid");
+                showCursesInfo(cursoService, Integer.parseInt(id));
 
             } else if(cmd.hasOption("cc")) {
                 // Crear/Agregar un nuevo curso
-                System.out.println("IMPLEMENTAR: Crear/Agregar un nuevo curso");
+                var newCurseValues = cmd.getOptionValues("cc");
+                addNewCurse(cursoService,
+                        Integer.parseInt(newCurseValues[0]),
+                        newCurseValues[1],
+                        newCurseValues[2],
+                        Integer.parseInt(newCurseValues[3]));
+                showAllCurses(cursoService);
 
             } else if(cmd.hasOption("cd")) {
                 // Borrar/remover un curso
-                System.out.println("IMPLEMENTAR: Borrar/remover un curso");
+                var id = cmd.getOptionValue("cd");
+                deleteCurse(cursoService, Integer.parseInt(id));
+                showAllCurses(cursoService);
 
             } else if(cmd.hasOption("cu")) {
                 // Actualizar datos de un curso
-                System.out.println("IMPLEMENTAR: Actualizar datos de un curso");
+                var newCurseValues = cmd.getOptionValues("cu");
+                updateCurse(cursoService,
+                        Integer.parseInt(newCurseValues[0]),
+                        newCurseValues[1],
+                        newCurseValues[2],
+                        Integer.parseInt(newCurseValues[3]));
+                showAllCurses(cursoService);
 
             } else if(cmd.hasOption("crd")) {
                 // Ver cursos por departamento
@@ -331,7 +345,41 @@ public class App  {
         estudianteService.updateStudent(nuevoEstudiante);
     }
 
-    public static void showAllCurses(CursoService cursoService){
-        //System.out.println( similar a showAllStudents);
+    public static void showAllCurses(CursoService cursoService) {
+
+        System.out.println("\n\n");
+        System.out.println("Lista de cursos");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("ID\t\tNombre\t\tDepartamento\tCreditos");
+        System.out.println("-----------------------------------------------------------------------");
+        for(Curso curso : cursoService.getAllCurses()) {
+            System.out.println(curso.getId() + "\t\t" + curso.getNombre() + "\t\t" +curso.getDepartamento() + "\t\t"+ curso.getCreditos());
+        }
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("\n\n");
+    }
+    
+    public static void showCursesInfo(CursoService cursoService, int id) {
+        Optional<Curso> curso = cursoService.getCurseById(id);
+        if(curso.isPresent()) {
+            System.out.println("Curso: " + curso.get().getNombre());
+            System.out.println("ID: " + curso.get().getId());
+        } else {
+            System.out.println("Curso con ID: " + id + " no existe");
+        }
+    }
+
+    public static void addNewCurse(CursoService cursoService, int id, String nombre, String departamento, int creditos) {
+        var nuevoCurso = new Curso(id ,nombre, departamento, creditos);
+        cursoService.addNewCurse(nuevoCurso);
+    }
+
+    public static void deleteCurse(CursoService cursoService, int id) {
+        cursoService.deleteCurse(id);
+    }
+
+    public static void updateCurse(CursoService cursoService, int id, String nombre, String departamento, int creditos) {
+        var nuevoCurso = new Curso(id, nombre, departamento, creditos);
+        cursoService.updateCurse(nuevoCurso);
     }
 }
