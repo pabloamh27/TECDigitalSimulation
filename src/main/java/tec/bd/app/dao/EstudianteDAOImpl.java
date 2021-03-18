@@ -5,24 +5,34 @@ import tec.bd.app.database.set.SetDB;
 import tec.bd.app.database.set.Row;
 import tec.bd.app.domain.Estudiante;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
-public class EstudianteDAOSetImpl extends GenericSetDAOImpl<Estudiante, Integer> implements EstudianteDAOSet {
+public class EstudianteDAOImpl extends GenericDAOImpl<Estudiante, Integer> implements EstudianteDAO {
 
-    public EstudianteDAOSetImpl(SetDB setDB, Class<Estudiante> clazz) {
+    public EstudianteDAOImpl(SetDB setDB, Class<Estudiante> clazz) {
         super(setDB, clazz);
     }
 
     @Override
     public List<Estudiante> findByLastName(String lastName) {
+        List<Estudiante> listaPorApellidos = new ArrayList<>();
+        var estudiante =this.table.stream().map(this::rowToEntity).collect(Collectors.toList());
+        for(Estudiante actual : estudiante){
+            if(actual.getApellido().equals(lastName) ){
+                listaPorApellidos.add(actual);
 
-
-        return null;
+            }
+        }
+        return listaPorApellidos.stream().collect(Collectors.toList());
     }
 
     @Override
     public List<Estudiante> findAllSortByLastName() {
+        //List<Estudiante> listaPorApellidos = new ArrayList<>();
+
         return null;
     }
 

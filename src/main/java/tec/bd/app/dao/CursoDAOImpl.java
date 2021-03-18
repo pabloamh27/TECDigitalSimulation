@@ -6,9 +6,11 @@ import tec.bd.app.database.set.SetDB;
 import tec.bd.app.domain.Curso;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class CursoDAOImpl extends GenericSetDAOImpl<Curso, Integer> implements CursoDAO {
+public class CursoDAOImpl extends GenericDAOImpl<Curso, Integer> implements CursoDAO {
 
     public CursoDAOImpl(SetDB setDB, Class<Curso> clazz) {
         super(setDB, clazz);
@@ -17,7 +19,15 @@ public class CursoDAOImpl extends GenericSetDAOImpl<Curso, Integer> implements C
     @Override
     public List<Curso> findByDeparment(String departament) {
 
-        return null;
+        List<Curso> listaPorDepartamento = new ArrayList<>();
+        var curso =this.table.stream().map(this::rowToEntity).collect(Collectors.toList());
+        for(Curso actual : curso){
+            if(actual.getDepartamento().equals(departament) ){
+                listaPorDepartamento.add(actual);
+
+            }
+        }
+        return listaPorDepartamento.stream().collect(Collectors.toList());
     }
 
 

@@ -14,9 +14,9 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class EstudianteDAOSetImplTest {
+public class EstudianteDAOImplTest {
 
-    private EstudianteDAOSetImpl estudianteDAO;
+    private EstudianteDAOImpl estudianteDAO;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -46,7 +46,7 @@ public class EstudianteDAOSetImplTest {
             add(pedroRow);
         }});
         var setDB = new SetDB(tables);
-        this.estudianteDAO = new EstudianteDAOSetImpl(setDB, Estudiante.class);
+        this.estudianteDAO = new EstudianteDAOImpl(setDB, Estudiante.class);
     }
 
     @Test

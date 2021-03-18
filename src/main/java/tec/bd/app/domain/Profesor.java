@@ -4,26 +4,25 @@ import java.util.List;
 
 public class Profesor implements Entity {
 
-    private int carneProfesor;
+    private int id;
     private String nombre;
     private String apellido;
     private String ciudad;
-    private List<Curso> cursos;
 
-    public Profesor(int id, String nombre, String apellido, String ciudad, List<Curso> cursos) {
-        carneProfesor = carneProfesor;
+
+    public Profesor(int id, String nombre, String apellido, String ciudad) {
+        this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.ciudad = ciudad;
-        this.cursos = cursos;
     }
 
-    public int getCarneProfesor() {
-        return carneProfesor;
+    public int getId() {
+        return id;
     }
 
-    public void setCarneProfesor(int carneProfesor) {
-        carneProfesor = carneProfesor;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -48,13 +47,5 @@ public class Profesor implements Entity {
 
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
-    }
-
-    public List<Curso> getCursos() {
-        return cursos;
-    }
-
-    public void setCursos(List<Curso> cursos) {
-        this.cursos = cursos;
     }
 }

@@ -5,8 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tec.bd.app.domain.Curso;
 import tec.bd.app.domain.Estudiante;
+import tec.bd.app.domain.Profesor;
 import tec.bd.app.service.CursoService;
 import tec.bd.app.service.EstudianteService;
+import tec.bd.app.service.ProfesorService;
 
 import java.util.Optional;
 
@@ -178,8 +180,11 @@ public class App  {
             var cmd = parser.parse(options, args);
 
             //------------------------------------------------------------------------
-            // Opciones para estudiante
-
+            //===================================================================
+            //
+            //                 FUNCIONES APP DE ESTUDIANTE
+            //
+            //===================================================================
             if(cmd.hasOption("er")) {
                 // Mostrar todos los estudiantes
                 showAllStudents(estudianteService);
@@ -220,68 +225,91 @@ public class App  {
                 // Ver todos los estudiantes con un apellido en particular
                 System.out.println("IMPLEMENTAR: Ver todos los estudiantes con un apellido en particular");
                 //------------------------------------------------------------------------
-                // Opciones para curso
+                //===================================================================
+                //
+                //                 FUNCIONES APP DE CURSOS
+                //
+                //===================================================================
 
             } else if(cmd.hasOption("cr")) {
                 // Mostrar todos los cursos
-                showAllCurses(cursoService);//a medio hacer
+                showAllCourses(cursoService);//a medio hacer
 
             } else if(cmd.hasOption("cid")) {
                 var id = cmd.getOptionValue("cid");
-                showCursesInfo(cursoService, Integer.parseInt(id));
+                showCoursesInfo(cursoService, Integer.parseInt(id));
 
             } else if(cmd.hasOption("cc")) {
                 // Crear/Agregar un nuevo curso
                 var newCurseValues = cmd.getOptionValues("cc");
-                addNewCurse(cursoService,
+                addNewCourse(cursoService,
                         Integer.parseInt(newCurseValues[0]),
                         newCurseValues[1],
                         newCurseValues[2],
                         Integer.parseInt(newCurseValues[3]));
-                showAllCurses(cursoService);
+                showAllCourses(cursoService);
 
             } else if(cmd.hasOption("cd")) {
                 // Borrar/remover un curso
                 var id = cmd.getOptionValue("cd");
-                deleteCurse(cursoService, Integer.parseInt(id));
-                showAllCurses(cursoService);
+                deleteCourse(cursoService, Integer.parseInt(id));
+                showAllCourses(cursoService);
 
             } else if(cmd.hasOption("cu")) {
                 // Actualizar datos de un curso
                 var newCurseValues = cmd.getOptionValues("cu");
-                updateCurse(cursoService,
+                updateCourse(cursoService,
                         Integer.parseInt(newCurseValues[0]),
                         newCurseValues[1],
                         newCurseValues[2],
                         Integer.parseInt(newCurseValues[3]));
-                showAllCurses(cursoService);
+                showAllCourses(cursoService);
 
             } else if(cmd.hasOption("crd")) {
                 // Ver cursos por departamento
                 System.out.println("IMPLEMENTAR: ver cursos por departamento");
 
                 //------------------------------------------------------------------------
-                // Opciones para profesor
+                //===================================================================
+                //
+                //                 FUNCIONES APP DE PROFESOR
+                //
+                //===================================================================
 
             } else if(cmd.hasOption("pr")) {
                 // Mostrar todos los profesores
-                System.out.println("IMPLEMENTAR: Mostrar todos los profesores");
+                showAllProfessors(profesorService);
 
             } else if(cmd.hasOption("pid")) {
                 // Mostrar un profesor por id
-                System.out.println("IMPLEMENTAR: Mostrar profesor por id");
+                var id = cmd.getOptionValue("pid");
+                showProfessorInfo(profesorService, Integer.parseInt(id));
 
             } else if(cmd.hasOption("pc")) {
                 // Crear/Agregar un nuevo profesor
-                System.out.println("IMPLEMENTAR: Crear/Agregar un nuevo profesor");
+                var newProfessorValues = cmd.getOptionValues("pc");
+                addNewProfessor(profesorService,
+                        Integer.parseInt(newProfessorValues[0]),
+                        newProfessorValues[1],
+                        newProfessorValues[2],
+                        newProfessorValues[3]);
+                showAllProfessors(profesorService);
 
             } else if(cmd.hasOption("pd")) {
                 // Borrar/remover un profesor
-                System.out.println("IMPLEMENTAR: Borrar/remover un profesor");
+                var id = cmd.getOptionValue("pd");
+                deleteProfessor(profesorService, Integer.parseInt(id));
+                showAllProfessors(profesorService);
 
             } else if(cmd.hasOption("pu")) {
                 // Actualizar datos de un profesor
-                System.out.println("IMPLEMENTAR: Actualizar datos de un profesor");
+                var newProfessorValues = cmd.getOptionValues("cu");
+                updateProfessor(profesorService,
+                        Integer.parseInt(newProfessorValues[0]),
+                        newProfessorValues[1],
+                        newProfessorValues[2],
+                        newProfessorValues[3]);
+                showAllProfessors(profesorService);
 
             } else if(cmd.hasOption("prc")) {
                 // Ver profesores por ciudad
@@ -306,6 +334,12 @@ public class App  {
             System.exit(1);
         }
     }
+
+    //===================================================================
+    //
+    //                 FUNCIONES APP DE ESTUDIANTE
+    //
+    //===================================================================
 
     public static void showAllStudents(EstudianteService estudianteService) {
 
@@ -345,22 +379,30 @@ public class App  {
         estudianteService.updateStudent(nuevoEstudiante);
     }
 
-    public static void showAllCurses(CursoService cursoService) {
+    //===================================================================
+    //
+    //                 FUNCIONES APP DE CURSOS
+    //
+    //===================================================================
+
+
+
+    public static void showAllCourses(CursoService cursoService) {
 
         System.out.println("\n\n");
         System.out.println("Lista de cursos");
         System.out.println("-----------------------------------------------------------------------");
         System.out.println("ID\t\tNombre\t\tDepartamento\tCreditos");
         System.out.println("-----------------------------------------------------------------------");
-        for(Curso curso : cursoService.getAllCurses()) {
+        for(Curso curso : cursoService.getAll()) {
             System.out.println(curso.getId() + "\t\t" + curso.getNombre() + "\t\t" +curso.getDepartamento() + "\t\t"+ curso.getCreditos());
         }
         System.out.println("-----------------------------------------------------------------------");
         System.out.println("\n\n");
     }
-    
-    public static void showCursesInfo(CursoService cursoService, int id) {
-        Optional<Curso> curso = cursoService.getCurseById(id);
+
+    public static void showCoursesInfo(CursoService cursoService, int id) {
+        Optional<Curso> curso = cursoService.getById(id);
         if(curso.isPresent()) {
             System.out.println("Curso: " + curso.get().getNombre());
             System.out.println("ID: " + curso.get().getId());
@@ -369,17 +411,62 @@ public class App  {
         }
     }
 
-    public static void addNewCurse(CursoService cursoService, int id, String nombre, String departamento, int creditos) {
+    public static void addNewCourse(CursoService cursoService, int id, String nombre, String departamento, int creditos) {
         var nuevoCurso = new Curso(id ,nombre, departamento, creditos);
-        cursoService.addNewCurse(nuevoCurso);
+        cursoService.addNew(nuevoCurso);
     }
 
-    public static void deleteCurse(CursoService cursoService, int id) {
-        cursoService.deleteCurse(id);
+    public static void deleteCourse(CursoService cursoService, int id) {
+        cursoService.deleteCourse(id);
     }
 
-    public static void updateCurse(CursoService cursoService, int id, String nombre, String departamento, int creditos) {
+    public static void updateCourse(CursoService cursoService, int id, String nombre, String departamento, int creditos) {
         var nuevoCurso = new Curso(id, nombre, departamento, creditos);
-        cursoService.updateCurse(nuevoCurso);
+        cursoService.updateCourse(nuevoCurso);
     }
+
+    //===================================================================
+    //
+    //                 FUNCIONES APP DE PROFESOR
+    //
+    //===================================================================
+
+    public static void showAllProfessors(ProfesorService profesorService) {
+
+        System.out.println("\n\n");
+        System.out.println("Lista de profesores");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("ID\t\tNombre\t\tApellido\tCiudad");
+        System.out.println("-----------------------------------------------------------------------");
+        for (Profesor profesor : profesorService.getAll()) {
+            System.out.println(profesor.getId() + "\t\t" + profesor.getNombre() + "\t\t" + profesor.getApellido() + "\t\t" + profesor.getCiudad());
+        }
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("\n\n");
+    }
+
+    public static void showProfessorInfo(ProfesorService profesorService, int id) {
+        Optional<Profesor> profesor = profesorService.getById(id);
+        if(profesor.isPresent()) {
+            System.out.println("Profesor: " + profesor.get().getNombre() + " " + profesor.get().getApellido());
+            System.out.println("Id: " + profesor.get().getId());
+        } else {
+            System.out.println("Profesor con el: " + id + " no existe");
+        }
+    }
+
+    public static void addNewProfessor(ProfesorService profesorService, int carne, String nombre, String apellido, String ciudad) {
+        var nuevoProfesor = new Profesor(carne,nombre, apellido, ciudad);
+        profesorService.addNew(nuevoProfesor);
+    }
+
+    public static void deleteProfessor(ProfesorService profesorService, int id) {
+        profesorService.deleteProfessor(id);
+    }
+
+    public static void updateProfessor(ProfesorService profesorService, int id, String nombre, String departamento, String ciudad) {
+        var nuevoProfesor = new Profesor(id, nombre, departamento, ciudad);
+        profesorService.updateProfessor(nuevoProfesor);
+    }
+    
 }

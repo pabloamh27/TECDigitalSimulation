@@ -7,6 +7,7 @@ import tec.bd.app.database.set.SetDB;
 import tec.bd.app.domain.Curso;
 import tec.bd.app.domain.Entity;
 import tec.bd.app.domain.Estudiante;
+import tec.bd.app.domain.Profesor;
 import tec.bd.app.service.*;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class ApplicationContext {
 
     private SetDB setDB;
-    private EstudianteDAOSet estudianteDAOSet;
+    private EstudianteDAO estudianteDAO;
     private EstudianteService estudianteServiceSet;
 
     private CursoDAO cursoDAO;
@@ -33,8 +34,8 @@ public class ApplicationContext {
     public static ApplicationContext init() {
         ApplicationContext applicationContext = new ApplicationContext();
         applicationContext.setDB = initSetDB();
-        applicationContext.estudianteDAOSet = initEstudianteSetDAO(applicationContext.setDB);
-        applicationContext.estudianteServiceSet = initEstudianteSetService(applicationContext.estudianteDAOSet);
+        applicationContext.estudianteDAO = initEstudianteSetDAO(applicationContext.setDB);
+        applicationContext.estudianteServiceSet = initEstudianteSetService(applicationContext.estudianteDAO);
 
         applicationContext.cursoDAO = initCursoSetDAO(applicationContext.setDB);
         applicationContext.cursoService = initCursoService(applicationContext.cursoDAO);
@@ -73,8 +74,6 @@ public class ApplicationContext {
         // ---------------------------------------------------------------
         // Registros de la tabla curso
         // ---------------------------------------------------------------
-
-        // Registros de la tabla cursos
         var matematicasId = new RowAttribute("id", 5);
         var matematicasNombre = new RowAttribute("nombre", "Matematicas");
         var matematicasDept = new RowAttribute("departamento", "Ciencias Exactas");
@@ -103,13 +102,35 @@ public class ApplicationContext {
         // Registros de la tabla profesor
         // ---------------------------------------------------------------
 
+        var rogelioId = new RowAttribute("id", 1);
+        var rogelioNombre = new RowAttribute("nombre", "Rogelio");
+        var rogelioApellido = new RowAttribute("apellido", "Prendas");
+        var rogelioCiudad = new RowAttribute("ciudad", "Heredia");
+        var rogelioRow = new Row(new RowAttribute[]{ rogelioId, rogelioNombre, rogelioApellido, rogelioCiudad });
 
 
+        var lorenaId = new RowAttribute("id", 2);
+        var lorenaNombre = new RowAttribute("nombre", "Lorena");
+        var lorenaApellido = new RowAttribute("apellido", "Benavides");
+        var lorenaCiudad = new RowAttribute("ciudad", "Alajuela");
+        var lorenaRow = new Row(new RowAttribute[]{ lorenaId, lorenaNombre, lorenaApellido, lorenaCiudad });
 
 
+        var belizaId = new RowAttribute("id", 4);
+        var belizaNombre = new RowAttribute("nombre", "Beliza");
+        var belizaApellido = new RowAttribute("apellido", "Cascante");
+        var belizaCiudad = new RowAttribute("ciudad", "San Carlos");
+        var belizaRow = new Row(new RowAttribute[]{ belizaId, belizaNombre, belizaApellido, belizaCiudad });
 
 
+        var carmenId = new RowAttribute("id", 11);
+        var carmenNombre = new RowAttribute("nombre", "Carmen");
+        var carmenApellido = new RowAttribute("apellido", "Prendas");
+        var carmenCiudad = new RowAttribute("ciudad", "Puntarenas");
+        var carmenRow = new Row(new RowAttribute[]{ carmenId, carmenNombre, carmenApellido, carmenCiudad });
         var tables = new HashMap<Class<? extends Entity>, Set<Row>>();
+
+
         tables.put(Estudiante.class, new HashSet<>() {{
             add(juanRow);
             add(mariaRow);
@@ -118,26 +139,30 @@ public class ApplicationContext {
         }});
 
         tables.put(Curso.class, new HashSet<>() {{
-            add(matematicasRow);
             add(quimicaRow);
             add(espanolRow);
+            add(matematicasRow);
             add(civicaRow);
+
         }});
 
-        // Agregar las filas de curso y estudiante a tables
-        // tables.put(Profesor.class, new HashSet<>() {{ ... }}
+        tables.put(Profesor.class, new HashSet<>() {{
+            add(carmenRow);
+            add(rogelioRow);
+            add(lorenaRow);
+            add(belizaRow);
+        }});
+
 
         return new SetDB(tables);
     }
-    
-    
 
-    private static EstudianteDAOSet initEstudianteSetDAO(SetDB setDB) {
-        return new EstudianteDAOSetImpl(setDB, Estudiante.class);
+    private static EstudianteDAO initEstudianteSetDAO(SetDB setDB) {
+        return new EstudianteDAOImpl(setDB, Estudiante.class);
     }
 
-    private static EstudianteService initEstudianteSetService(EstudianteDAOSet estudianteDAOSet) {
-        return new EstudianteServiceImpl(estudianteDAOSet);
+    private static EstudianteService initEstudianteSetService(EstudianteDAO estudianteDAO) {
+        return new EstudianteServiceImpl(estudianteDAO);
     }
 
     private static CursoDAO initCursoSetDAO(SetDB setDB){
@@ -153,8 +178,8 @@ public class ApplicationContext {
         return this.setDB;
     }
 
-    public EstudianteDAOSet getEstudianteSetDAO() {
-        return this.estudianteDAOSet;
+    public EstudianteDAO getEstudianteSetDAO() {
+        return this.estudianteDAO;
     }
 
     public EstudianteService getEstudianteServiceSet() {
@@ -165,7 +190,7 @@ public class ApplicationContext {
         return this.cursoDAO;
     }
 
-    public CursoService getCursoService(){
+    public  CursoService getCursoService(){
         return this.cursoService;
     }
 

@@ -1,5 +1,6 @@
 package tec.bd.app.service;
 
+import tec.bd.app.domain.Estudiante;
 import tec.bd.app.domain.Profesor;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface ProfesorService {
     void deleteProfessor(int id);
 
     //nuevo metodo para ver los profesores por ciudad
+
+    List<Profesor> getStudentsByCity(String city);
 
 }

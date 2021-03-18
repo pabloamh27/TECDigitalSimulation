@@ -13,9 +13,9 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class GenericSetDAOImplTest {
+public class GenericDAOImplTest {
 
-    private GenericSetDAOImpl<Greeting, Integer> genericSetDAO;
+    private GenericDAOImpl<Greeting, Integer> genericSetDAO;
 
     @BeforeEach
     public void setUp() {
@@ -38,7 +38,7 @@ public class GenericSetDAOImplTest {
         SetDB setDB = new SetDB(Map.of(Greeting.class, greetingTable));
 
 
-        this.genericSetDAO = new GenericSetDAOImpl<>(setDB, Greeting.class) {
+        this.genericSetDAO = new GenericDAOImpl<>(setDB, Greeting.class) {
 
             @Override
             protected Greeting rowToEntity(Row row) {

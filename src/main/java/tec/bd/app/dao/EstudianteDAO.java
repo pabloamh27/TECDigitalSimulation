@@ -6,7 +6,7 @@ import tec.bd.app.domain.Estudiante;
 
 import java.util.List;
 
-public interface EstudianteDAOSet extends GenericDAO<Estudiante, Integer>{
+public interface EstudianteDAO extends GenericDAO<Estudiante, Integer>{
 
     /**
      * Obtener todos los estudiantes por apellido

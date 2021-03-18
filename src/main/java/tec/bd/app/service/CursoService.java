@@ -7,17 +7,17 @@ import java.util.Optional;
 
 public interface CursoService {
 
-    List<Curso> getAllCurses();
+    List<Curso> getAll();
 
-    Optional<Curso> getCurseById(int Id);
+    Optional<Curso> getById(int Id);
 
-    void addNewCurse(Curso c);
+    void addNew(Curso c);
 
-    Optional<Curso> updateCurse(Curso c);
+    Optional<Curso> updateCourse(Curso c);
 
-    void deleteCurse(int id);
+    void deleteCourse(int id);
 
-    List<Curso> getByDepartment(String department);
+    List<Curso> getCourseByDepartment(String department);
 
 
 }
