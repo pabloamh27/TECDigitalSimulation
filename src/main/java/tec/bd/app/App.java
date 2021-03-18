@@ -10,6 +10,7 @@ import tec.bd.app.service.CursoService;
 import tec.bd.app.service.EstudianteService;
 import tec.bd.app.service.ProfesorService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class App  {
@@ -266,8 +267,9 @@ public class App  {
                 showAllCourses(cursoService);
 
             } else if(cmd.hasOption("crd")) {
-                // Ver cursos por departamento
-                System.out.println("IMPLEMENTAR: ver cursos por departamento");
+//                var dept = cmd.getOptionValue("crd");
+//                showByDept(cursoService, dept);
+
 
                 //------------------------------------------------------------------------
                 //===================================================================
@@ -424,6 +426,16 @@ public class App  {
         var nuevoCurso = new Curso(id, nombre, departamento, creditos);
         cursoService.updateCourse(nuevoCurso);
     }
+
+//    public static void showByDept(CursoService cursoService, String departamento) {
+//        List<Curso> curso = cursoService.getCourseByDepartment(departamento);
+//        if(!curso.isEmpty()) {
+//            System.out.println("Curso: " + curso.get().getNombre());
+//            System.out.println("Departamento: " + curso.get().getDepartamento());
+//        } else {
+//            System.out.println("Estudiante con carne: " + departamento + " no existe");
+//        }
+//    }
 
     //===================================================================
     //

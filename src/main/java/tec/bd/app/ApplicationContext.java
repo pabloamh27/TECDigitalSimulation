@@ -82,7 +82,7 @@ public class ApplicationContext {
 
         var espanolId = new RowAttribute("id", 10);
         var espanolNombre = new RowAttribute("nombre", "Espanol");
-        var espanolDept = new RowAttribute("departamento", "Lenguajes");
+        var espanolDept = new RowAttribute("departamento", "Lengua");
         var espanolCreditos = new RowAttribute("creditos", 3);
         var espanolRow = new Row(new RowAttribute[]{ espanolId, espanolNombre, espanolDept, espanolCreditos });
 
