@@ -72,12 +72,12 @@ public class CursoServiceImplTest {
 
         var cursosBeforeSave = this.cursoService.getAll();
 
-        var karol = new Curso(2, "Karol", "Jimenez", 21);
-        cursoService.addNew(karol);
+        var fisica = new Curso(1, "Fisica", "Ciencias Exactas", 4);
+        cursoService.addNew(fisica);
 
         var cursosAfterSave = this.cursoService.getAll();
 
-        verify(this.cursoSetDAO, times(1)).save(karol);
+        verify(this.cursoSetDAO, times(1)).save(fisica);
         assertThat(cursosAfterSave.size()).isGreaterThan(cursosBeforeSave.size());
     }
 
@@ -112,12 +112,12 @@ public class CursoServiceImplTest {
 
         var cursoBefore = this.cursoService.getById(2);
 
-        var karol = new Curso(2, "Karol", "Jimenez", 21);
-        cursoService.updateCourse(karol);
+        var historia = new Curso(2, "Historia", "Ciencias Naturales", 3);
+        cursoService.updateCourse(historia);
 
         var cursoAfter = this.cursoService.getById(2);
 
-        verify(this.cursoSetDAO, times(1)).update(karol);
+        verify(this.cursoSetDAO, times(1)).update(historia);
         assertThat(cursoAfter).isNotSameAs(cursoBefore);
     }
 
