@@ -1,11 +1,11 @@
 package tec.bd.app.dao;
 
-import tec.bd.app.domain.Estudiante;
 import tec.bd.app.domain.Profesor;
 
 import java.util.List;
 
 public interface ProfesorDAO extends GenericDAO<Profesor, Integer> {
+
     //nuevo metodo para buscar por ciudad
 
     /**

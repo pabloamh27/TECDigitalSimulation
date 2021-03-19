@@ -11,21 +11,24 @@ import java.util.stream.Collectors;
 
 public class ProfesorDAOImpl extends GenericDAOImpl<Profesor, Integer> implements ProfesorDAO {
 
-    protected ProfesorDAOImpl(SetDB setDB, Class<Profesor> clazz) {
+    public ProfesorDAOImpl(SetDB setDB, Class<Profesor> clazz) {
         super(setDB, clazz);
     }
 
     @Override
     public List<Profesor> findByCity(String city) {
-        List<Profesor> listaPorCiudad = new ArrayList<>();
-        var profesor =this.table.stream().map(this::rowToEntity).collect(Collectors.toList());
-        for(Profesor actual : profesor){
-            if(actual.getApellido().equals(city) ){
-                listaPorCiudad.add(actual);
+        var listaProfesores = this.table.stream().map(this::rowToEntity).collect(Collectors.toList());
+        ArrayList<Profesor> listaApellidos = new ArrayList<>();
+        for(int i = 0; i< listaProfesores.size(); i++){
+            Profesor actual = listaProfesores.get(i);
+            if(actual.getCiudad().equals(city)){
 
+                listaApellidos.add(actual);
             }
+
         }
-        return listaPorCiudad.stream().collect(Collectors.toList());
+
+        return listaApellidos.stream().collect(Collectors.toList());
     }
 
     @Override
@@ -34,7 +37,7 @@ public class ProfesorDAOImpl extends GenericDAOImpl<Profesor, Integer> implement
         var id = row.intAttributeValue("id");
         var nombre = row.stringAttributeValue("nombre");
         var apellido = row.stringAttributeValue("apellido");
-        var ciudad = row.stringAttributeValue("edad");
+        var ciudad = row.stringAttributeValue("ciudad");
         return new Profesor(id, nombre, apellido, ciudad);
     }
 

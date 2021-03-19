@@ -52,7 +52,7 @@ public class ProfesorServiceImpl implements ProfesorService{
     }
 
     @Override
-    public List<Profesor> getStudentsByCity(String city) {
+    public List<Profesor> getProfessorsByCity(String city) {
         if (!city.isEmpty()){
             return this.profesorDAO.findByCity(city);
         }
