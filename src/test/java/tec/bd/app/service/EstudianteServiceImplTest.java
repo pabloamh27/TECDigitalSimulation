@@ -112,12 +112,12 @@ public class EstudianteServiceImplTest {
 
         var studentBefore = this.estudianteService.getById(2);
 
-        var karol = new Estudiante(2, "Karol", "Jimenez", 21);
-        estudianteService.updateStudent(karol);
+        var soledad = new Estudiante(2, "Soledad", "Marioneta", 75);
+        estudianteService.updateStudent(soledad);
 
         var studentAfter = this.estudianteService.getById(2);
 
-        verify(this.estudianteSetDAO, times(1)).update(karol);
+        verify(this.estudianteSetDAO, times(1)).update(soledad);
         assertThat(studentAfter).isNotSameAs(studentBefore);
     }
 

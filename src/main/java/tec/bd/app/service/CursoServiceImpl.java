@@ -25,10 +25,10 @@ public class CursoServiceImpl implements CursoService{
     @Override
     public Optional<Curso> getById(int id) {
 
-        if (id<=0){
-            return Optional.empty();
+        if (id > 0){
+            return this.cursoDAO.findById(id);
         }
-        return this.cursoDAO.findById(id);
+        return Optional.empty();
     }
 
 
