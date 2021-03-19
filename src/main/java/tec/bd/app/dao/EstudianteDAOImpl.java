@@ -8,6 +8,7 @@ import tec.bd.app.domain.Estudiante;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Collections;
 
 
 public class EstudianteDAOImpl extends GenericDAOImpl<Estudiante, Integer> implements EstudianteDAO {
@@ -18,22 +19,39 @@ public class EstudianteDAOImpl extends GenericDAOImpl<Estudiante, Integer> imple
 
     @Override
     public List<Estudiante> findByLastName(String lastName) {
-        List<Estudiante> listaPorApellidos = new ArrayList<>();
-        var estudiante =this.table.stream().map(this::rowToEntity).collect(Collectors.toList());
-        for(Estudiante actual : estudiante){
-            if(actual.getApellido().equals(lastName) ){
-                listaPorApellidos.add(actual);
-
+        var listaEstudiantes = this.table.stream().map(this::rowToEntity).collect(Collectors.toList());
+        ArrayList<Estudiante> listaApellidos = new ArrayList<>();
+        for(int i = 0; i< listaEstudiantes.size(); i++){
+            Estudiante actual = listaEstudiantes.get(i);
+            if(actual.getApellido().equals(lastName)){
+                listaApellidos.add(actual);
             }
         }
-        return listaPorApellidos.stream().collect(Collectors.toList());
+        return listaApellidos.stream().collect(Collectors.toList());
     }
+
 
     @Override
     public List<Estudiante> findAllSortByLastName() {
-        //List<Estudiante> listaPorApellidos = new ArrayList<>();
+        var listaEstudiantes = this.table.stream().map(this::rowToEntity).collect(Collectors.toList());
+        ArrayList<String> listaApellidos = new ArrayList<>();
+        for(int i = 0; i<listaEstudiantes.size(); i++){
+            String actual = listaEstudiantes.get(i).getApellido();
+            listaApellidos.add(actual);
+        }
+        Collections.sort(listaApellidos);
 
-        return null;
+        ArrayList<Estudiante> listaEstudianteOrdenados = new ArrayList<>();
+        for( String i : listaApellidos){
+            for(Estudiante actual : listaEstudiantes){
+                if(actual.getApellido().equals(i)){
+                    listaEstudianteOrdenados.add(actual);
+                    break;
+                }
+            }
+        }
+
+        return listaEstudianteOrdenados.stream().collect(Collectors.toList());
     }
 
     @Override

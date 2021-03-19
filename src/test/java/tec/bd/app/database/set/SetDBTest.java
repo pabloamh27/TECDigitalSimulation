@@ -3,8 +3,6 @@ package tec.bd.app.database.set;
 import org.junit.jupiter.api.Test;
 import tec.bd.app.domain.Estudiante;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -19,9 +17,8 @@ public class SetDBTest {
         Set<Row> estudianteTable = mock(Set.class);
         SetDB setDB = new SetDB(Map.of(Estudiante.class, estudianteTable));
 
-        // Para probar esto se puede pasar un clase que se sabe que no es soportada por el metodo
+        // Para probar esto se puede pasar un clase que se sabe que no es suportada por el metodo
         var actual = setDB.getTableByClassName(HashSet.class);
-
         assertThat(actual).isEmpty();
     }
 

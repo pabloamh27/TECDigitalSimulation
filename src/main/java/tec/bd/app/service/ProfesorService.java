@@ -19,6 +19,6 @@ public interface ProfesorService {
 
     //nuevo metodo para ver los profesores por ciudad
 
-    List<Profesor> getStudentsByCity(String city);
+    List<Profesor> getProfessorsByCity(String city);
 
 }

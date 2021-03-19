@@ -36,11 +36,10 @@ public class ApplicationContext {
         applicationContext.setDB = initSetDB();
         applicationContext.estudianteDAO = initEstudianteSetDAO(applicationContext.setDB);
         applicationContext.estudianteServiceSet = initEstudianteSetService(applicationContext.estudianteDAO);
-
-        applicationContext.cursoDAO = initCursoSetDAO(applicationContext.setDB);
+        applicationContext.cursoDAO =  initCursoSetDAO(applicationContext.setDB);
         applicationContext.cursoService = initCursoService(applicationContext.cursoDAO);
-
-
+        applicationContext.profesorDAO = initProfesorSetDAO(applicationContext.setDB);
+        applicationContext.profesorService = initProfesorService(applicationContext.profesorDAO);
 
         return applicationContext;
     }
@@ -82,7 +81,7 @@ public class ApplicationContext {
 
         var espanolId = new RowAttribute("id", 10);
         var espanolNombre = new RowAttribute("nombre", "Espanol");
-        var espanolDept = new RowAttribute("departamento", "Lenguajes");
+        var espanolDept = new RowAttribute("departamento", "Lengua");
         var espanolCreditos = new RowAttribute("creditos", 3);
         var espanolRow = new Row(new RowAttribute[]{ espanolId, espanolNombre, espanolDept, espanolCreditos });
 
@@ -157,6 +156,7 @@ public class ApplicationContext {
         return new SetDB(tables);
     }
 
+    //-------------------------------inits------------------------------------------------------------------
     private static EstudianteDAO initEstudianteSetDAO(SetDB setDB) {
         return new EstudianteDAOImpl(setDB, Estudiante.class);
     }
@@ -165,15 +165,23 @@ public class ApplicationContext {
         return new EstudianteServiceImpl(estudianteDAO);
     }
 
-    private static CursoDAO initCursoSetDAO(SetDB setDB){
+    public static CursoDAO initCursoSetDAO(SetDB setDB){
         return new CursoDAOImpl(setDB, Curso.class);
     }
 
-    private static CursoService initCursoService(CursoDAO cursoDAO){
+    public static CursoService initCursoService(CursoDAO cursoDAO){
         return new CursoServiceImpl(cursoDAO);
     }
 
+    public static ProfesorDAO initProfesorSetDAO(SetDB setDB){
+        return new ProfesorDAOImpl(setDB, Profesor.class);
+    }
 
+    public static ProfesorService initProfesorService(ProfesorDAO profesorDAO){
+        return new ProfesorServiceImpl(profesorDAO);
+    }
+
+    //-------------------------------getters------------------------------------------------------------------
     public SetDB getSetDB() {
         return this.setDB;
     }
@@ -190,13 +198,15 @@ public class ApplicationContext {
         return this.cursoDAO;
     }
 
-    public  CursoService getCursoService(){
+    public CursoService getCursoService(){
         return this.cursoService;
     }
 
-    public ProfesorDAO getProfesorDAO(){return this.profesorDAO;}
+    public ProfesorDAO getProfersorSetDAO() {
+        return this.profesorDAO;
+    }
 
-    public ProfesorService getProfesorService(){return this.profesorService;}
-
-
+    public ProfesorService getProfesorService() {
+        return this.profesorService;
+    }
 }

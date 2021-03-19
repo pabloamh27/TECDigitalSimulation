@@ -10,6 +10,7 @@ import tec.bd.app.service.CursoService;
 import tec.bd.app.service.EstudianteService;
 import tec.bd.app.service.ProfesorService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class App  {
@@ -218,12 +219,12 @@ public class App  {
 
             } else if(cmd.hasOption("erln")) {
                 // Ver todos los estudiantes ordenados por apellido
-                System.out.println("IMPLEMENTAR: Ver todos los estudiantes ordenados por apellido");
+                showSortedByLastName(estudianteService);
 
             } else if(cmd.hasOption("eln")) {
                 // Ejemplo: -eln Rojas
-                // Ver todos los estudiantes con un apellido en particular
-                System.out.println("IMPLEMENTAR: Ver todos los estudiantes con un apellido en particular");
+                var apellido = cmd.getOptionValue("eln");
+                showByLastName(estudianteService, apellido);
                 //------------------------------------------------------------------------
                 //===================================================================
                 //
@@ -267,7 +268,9 @@ public class App  {
 
             } else if(cmd.hasOption("crd")) {
                 // Ver cursos por departamento
-                System.out.println("IMPLEMENTAR: ver cursos por departamento");
+                var departament = cmd.getOptionValue("crd");
+                showByDepartament(cursoService, departament);
+
 
                 //------------------------------------------------------------------------
                 //===================================================================
@@ -303,7 +306,7 @@ public class App  {
 
             } else if(cmd.hasOption("pu")) {
                 // Actualizar datos de un profesor
-                var newProfessorValues = cmd.getOptionValues("cu");
+                var newProfessorValues = cmd.getOptionValues("pu");
                 updateProfessor(profesorService,
                         Integer.parseInt(newProfessorValues[0]),
                         newProfessorValues[1],
@@ -313,7 +316,8 @@ public class App  {
 
             } else if(cmd.hasOption("prc")) {
                 // Ver profesores por ciudad
-                System.out.println("IMPLEMENTAR: ver profesores por ciudad");
+                var ciudad = cmd.getOptionValue("prc");
+                showByCity(profesorService, ciudad);
 
 
                 //------------------------------------------------------------------------
@@ -379,14 +383,63 @@ public class App  {
         estudianteService.updateStudent(nuevoEstudiante);
     }
 
+    public static void showByLastName(EstudianteService estudianteService, String apellido){
+        List<Estudiante> estudiantes = estudianteService.getStudentsByLastName(apellido);
+
+        if(!estudiantes.isEmpty()){
+            System.out.println("\n\n");
+            System.out.println("Lista de Estudiantes");
+            System.out.println("-----------------------------------------------------------------------");
+            System.out.println("Carne\t\tNombre\t\tApellido\tEdad");
+            System.out.println("-----------------------------------------------------------------------");
+
+            for (Estudiante actual : estudiantes) {
+                System.out.println(actual.getCarne() + "\t\t" + actual.getNombre() + "\t\t" + actual.getApellido() + "\t\t" + actual.getEdad());
+            }
+
+            System.out.println("-----------------------------------------------------------------------");
+
+        }
+
+        else{
+            System.out.println("Estudiantes con apellido: " + apellido + " no existen");
+        }
+
+
+    }
+
+    public static void showSortedByLastName(EstudianteService estudianteService){
+        List<Estudiante> estudiantes = estudianteService.getStudentsSortedByLastName();
+
+        if(!estudiantes.isEmpty()){
+            System.out.println("\n\n");
+            System.out.println("Lista de Estudiantes");
+            System.out.println("-----------------------------------------------------------------------");
+            System.out.println("Carne\t\tNombre\t\tApellido\tEdad");
+            System.out.println("-----------------------------------------------------------------------");
+
+            for (Estudiante actual : estudiantes) {
+                System.out.println(actual.getCarne() + "\t\t" + actual.getNombre() + "\t\t" + actual.getApellido() + "\t\t" + actual.getEdad());
+            }
+
+            System.out.println("-----------------------------------------------------------------------");
+
+        }
+        else{
+            System.out.println("No hay estudiantes");
+        }
+
+
+    }
+
+
     //===================================================================
     //
-    //                 FUNCIONES APP DE CURSOS
+    //                 FUNCIONES APP DE CURSO
     //
     //===================================================================
 
-
-
+    //-------------------------------------métodos de curso-------------------------------------------------------
     public static void showAllCourses(CursoService cursoService) {
 
         System.out.println("\n\n");
@@ -423,6 +476,28 @@ public class App  {
     public static void updateCourse(CursoService cursoService, int id, String nombre, String departamento, int creditos) {
         var nuevoCurso = new Curso(id, nombre, departamento, creditos);
         cursoService.updateCourse(nuevoCurso);
+    }
+
+    public static void showByDepartament(CursoService cursoService, String departamento){
+        List<Curso> cursosDepartamento = cursoService.getCourseByDepartment(departamento);
+ 
+	if(!cursosDepartamento.isEmpty()){
+            System.out.println("\n\n");
+            System.out.println("Lista de Cursos");
+            System.out.println("-----------------------------------------------------------------------");
+            System.out.println("ID\t\tNombre\t\tDepartamento\tCreditos");
+            System.out.println("-----------------------------------------------------------------------");
+        for (Curso actual : cursosDepartamento) {
+            System.out.println(actual.getId() + "\t\t" + actual.getNombre() + "\t\t" + actual.getDepartamento() + "\t\t" + actual.getCreditos());
+        }
+
+            System.out.println("-----------------------------------------------------------------------");
+
+        }
+        else{
+            System.out.println("Departamento: " + departamento + " no existente");
+        }
+
     }
 
     //===================================================================
@@ -464,9 +539,35 @@ public class App  {
         profesorService.deleteProfessor(id);
     }
 
-    public static void updateProfessor(ProfesorService profesorService, int id, String nombre, String departamento, String ciudad) {
-        var nuevoProfesor = new Profesor(id, nombre, departamento, ciudad);
+    public static void updateProfessor(ProfesorService profesorService, int id, String nombre, String apellido, String ciudad) {
+        var nuevoProfesor = new Profesor(id, nombre, apellido, ciudad);
         profesorService.updateProfessor(nuevoProfesor);
     }
-    
+
+    public static void showByCity(ProfesorService profesorService, String ciudad){
+        List<Profesor> profesores = profesorService.getProfessorsByCity(ciudad);
+
+        if(profesores.isEmpty()){
+            System.out.println("Ciudad: " + ciudad + " no existe ");
+
+        }
+        else{
+            System.out.println("\n\n");
+            System.out.println("Lista de profesores");
+            System.out.println("-----------------------------------------------------------------------");
+            System.out.println("ID\t\tNombre\t\tApellido\tCiudad");
+            System.out.println("-----------------------------------------------------------------------");
+
+            for (Profesor actual : profesores) {
+                System.out.println(actual.getId() + "\t\t" + actual.getNombre() + "\t\t" + actual.getApellido() + "\t\t" + actual.getCiudad());
+            }
+
+            System.out.println("-----------------------------------------------------------------------");
+
+
+        }
+
+    }
+
+
 }
