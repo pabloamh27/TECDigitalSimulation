@@ -21,29 +21,29 @@ public class EstudianteDAOImplTest {
     @BeforeEach
     public void setUp() throws Exception {
 
-        var juanId = new RowAttribute("id", 1);
-        var juanNombre = new RowAttribute("nombre", "Juan");
-        var juanApellido = new RowAttribute("apellido", "Perez");
-        var juanEdad = new RowAttribute("edad", 20);
-        var juanRow = new Row(new RowAttribute[]{ juanId, juanNombre, juanApellido, juanEdad });
+        var robertoId = new RowAttribute("id", 5);
+        var robertoNombre = new RowAttribute("nombre", "Roberto");
+        var robertoApellido = new RowAttribute("apellido", "Araya");
+        var robertoEdad = new RowAttribute("edad", 29);
+        var robertoRow = new Row(new RowAttribute[]{ robertoId, robertoNombre, robertoApellido, robertoEdad });
 
-        var mariaId = new RowAttribute("id", 3);
-        var mariaNombre = new RowAttribute("nombre", "Maria");
-        var mariaApellido = new RowAttribute("apellido", "Rojas");
-        var mariaEdad = new RowAttribute("edad", 21);
-        var mariaRow = new Row(new RowAttribute[]{ mariaId, mariaNombre, mariaApellido, mariaEdad });
+        var manuelaId = new RowAttribute("id", 10);
+        var manuelaNombre = new RowAttribute("nombre", "Manuela");
+        var manuelaApellido = new RowAttribute("apellido", "Martinez");
+        var manuelaEdad = new RowAttribute("edad", 45);
+        var manuelaRow = new Row(new RowAttribute[]{ manuelaId, manuelaNombre, manuelaApellido, manuelaEdad });
 
-        var pedroId = new RowAttribute("id", 2);
-        var pedroNombre = new RowAttribute("nombre", "Pedro");
-        var pedroApellido = new RowAttribute("apellido", "Infante");
-        var pedroEdad = new RowAttribute("edad", 23);
-        var pedroRow = new Row(new RowAttribute[]{ pedroId, pedroNombre, pedroApellido, pedroEdad });
+        var kimberlyId = new RowAttribute("id", 15);
+        var kimberlyNombre = new RowAttribute("nombre", "Kimberly");
+        var kimberlyApellido = new RowAttribute("apellido", "Hidalgo");
+        var kimberlyEdad = new RowAttribute("edad", 15);
+        var kimberlyRow = new Row(new RowAttribute[]{ kimberlyId, kimberlyNombre, kimberlyApellido, kimberlyEdad });
 
         var tables = new HashMap<Class<? extends Entity>, Set<Row>>();
         tables.put(Estudiante.class, new HashSet<>() {{
-            add(juanRow);
-            add(mariaRow);
-            add(pedroRow);
+            add(robertoRow);
+            add(manuelaRow);
+            add(kimberlyRow);
         }});
         var setDB = new SetDB(tables);
         this.estudianteDAO = new EstudianteDAOImpl(setDB, Estudiante.class);
@@ -57,11 +57,11 @@ public class EstudianteDAOImplTest {
 
     @Test
     public void findById() throws Exception {
-        var student = this.estudianteDAO.findById(3);
-        assertThat(student.get().getCarne()).isEqualTo(3);
-        assertThat(student.get().getNombre()).isEqualTo("Maria");
-        assertThat(student.get().getApellido()).isEqualTo("Rojas");
-        assertThat(student.get().getEdad()).isEqualTo(21);
+        var student = this.estudianteDAO.findById(10);
+        assertThat(student.get().getCarne()).isEqualTo(10);
+        assertThat(student.get().getNombre()).isEqualTo("Manuela");
+        assertThat(student.get().getApellido()).isEqualTo("Martinez");
+        assertThat(student.get().getEdad()).isEqualTo(45);
     }
 
     @Test
@@ -78,31 +78,49 @@ public class EstudianteDAOImplTest {
 
     @Test
     public void update() throws Exception {
-        var current = this.estudianteDAO.findById(3);
+        var current = this.estudianteDAO.findById(10);
         current.get().setApellido("Rodriguez");
         current.get().setEdad(30);
         var actual = this.estudianteDAO.update(current.get());
         assertThat(this.estudianteDAO.findAll()).hasSize(3);
-        assertThat(actual.get().getCarne()).isEqualTo(3);
-        assertThat(actual.get().getNombre()).isEqualTo("Maria");
+        assertThat(actual.get().getCarne()).isEqualTo(10);
+        assertThat(actual.get().getNombre()).isEqualTo("Manuela");
         assertThat(actual.get().getApellido()).isEqualTo("Rodriguez");
         assertThat(actual.get().getEdad()).isEqualTo(30);
     }
 
     @Test
     public void delete() throws Exception {
-        this.estudianteDAO.delete(2);
+        this.estudianteDAO.delete(10);
         assertThat(this.estudianteDAO.findAll()).hasSize(2);
     }
 
     @Test
     public void findByLastName() throws Exception {
-        //TODO: hay que implementarlo
+        var estudiantes = this.estudianteDAO.findByLastName("Martinez");
+        assertThat(estudiantes.get(0).getCarne()).isEqualTo(10);
+        assertThat(estudiantes.get(0).getNombre()).isEqualTo("Manuela");
+        assertThat(estudiantes.get(0).getApellido()).isEqualTo("Martinez");
+        assertThat(estudiantes.get(0).getEdad()).isEqualTo(45);
     }
 
     @Test
     public void findAllSortedByLastName() throws Exception {
-        //TODO: hay que implementarlo
+        var estudiantes = this.estudianteDAO.findAllSortByLastName();
+        assertThat(estudiantes.get(0).getCarne()).isEqualTo(5);
+        assertThat(estudiantes.get(0).getNombre()).isEqualTo("Roberto");
+        assertThat(estudiantes.get(0).getApellido()).isEqualTo("Araya");
+        assertThat(estudiantes.get(0).getEdad()).isEqualTo(29);
+        //------------------------------------------------------------------------
+        assertThat(estudiantes.get(1).getCarne()).isEqualTo(15);
+        assertThat(estudiantes.get(1).getNombre()).isEqualTo("Kimberly");
+        assertThat(estudiantes.get(1).getApellido()).isEqualTo("Hidalgo");
+        assertThat(estudiantes.get(1).getEdad()).isEqualTo(15);
+        //------------------------------------------------------------------------
+        assertThat(estudiantes.get(2).getCarne()).isEqualTo(10);
+        assertThat(estudiantes.get(2).getNombre()).isEqualTo("Manuela");
+        assertThat(estudiantes.get(2).getApellido()).isEqualTo("Martinez");
+        assertThat(estudiantes.get(2).getEdad()).isEqualTo(45);
     }
 
 

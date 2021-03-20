@@ -46,110 +46,110 @@ public class ApplicationContext {
 
     private static SetDB initSetDB() {
         // Registros de la tabla estudiante
-        var juanId = new RowAttribute("id", 1);
-        var juanNombre = new RowAttribute("nombre", "Juan");
-        var juanApellido = new RowAttribute("apellido", "Perez");
-        var juanEdad = new RowAttribute("edad", 20);
-        var juanRow = new Row(new RowAttribute[]{ juanId, juanNombre, juanApellido, juanEdad });
+        var ronaldId = new RowAttribute("id", 1);
+        var ronaldNombre = new RowAttribute("nombre", "Ronald");
+        var ronaldApellido = new RowAttribute("apellido", "Sequeira");
+        var ronaldEdad = new RowAttribute("edad", 59);
+        var ronaldRow = new Row(new RowAttribute[]{ ronaldId, ronaldNombre, ronaldApellido, ronaldEdad });
 
-        var mariaId = new RowAttribute("id", 3);
-        var mariaNombre = new RowAttribute("nombre", "Maria");
-        var mariaApellido = new RowAttribute("apellido", "Rojas");
-        var mariaEdad = new RowAttribute("edad", 21);
-        var mariaRow = new Row(new RowAttribute[]{ mariaId, mariaNombre, mariaApellido, mariaEdad });
+        var luciaId = new RowAttribute("id", 2);
+        var luciaNombre = new RowAttribute("nombre", "Lucia");
+        var luciaApellido = new RowAttribute("apellido", "Rojas");
+        var luciaEdad = new RowAttribute("edad", 94);
+        var luciaRow = new Row(new RowAttribute[]{ luciaId, luciaNombre, luciaApellido, luciaEdad });
 
-        var pedroId = new RowAttribute("id", 2);
-        var pedroNombre = new RowAttribute("nombre", "Pedro");
-        var pedroApellido = new RowAttribute("apellido", "Infante");
-        var pedroEdad = new RowAttribute("edad", 23);
-        var pedroRow = new Row(new RowAttribute[]{ pedroId, pedroNombre, pedroApellido, pedroEdad });
+        var josePabloId = new RowAttribute("id", 3);
+        var josePabloNombre = new RowAttribute("nombre", "JosePablo");
+        var josePabloApellido = new RowAttribute("apellido", "Sanabria");
+        var josePabloEdad = new RowAttribute("edad", 14);
+        var josePabloRow = new Row(new RowAttribute[]{ josePabloId, josePabloNombre, josePabloApellido, josePabloEdad });
 
-        var raquelId = new RowAttribute("id", 10);
-        var raquelNombre = new RowAttribute("nombre", "Raquel");
-        var raquelApellido = new RowAttribute("apellido", "Rojas");
-        var raquelEdad = new RowAttribute("edad", 25);
-        var raquelRow = new Row(new RowAttribute[]{ raquelId, raquelNombre, raquelApellido, raquelEdad });
+        var manriqueId = new RowAttribute("id", 4);
+        var manriqueNombre = new RowAttribute("nombre", "Manrique");
+        var manriqueApellido = new RowAttribute("apellido", "Guillen");
+        var manriqueEdad = new RowAttribute("edad", 19);
+        var manriqueRow = new Row(new RowAttribute[]{ manriqueId, manriqueNombre, manriqueApellido, manriqueEdad });
 
         // ---------------------------------------------------------------
         // Registros de la tabla curso
         // ---------------------------------------------------------------
-        var matematicasId = new RowAttribute("id", 5);
-        var matematicasNombre = new RowAttribute("nombre", "Matematicas");
-        var matematicasDept = new RowAttribute("departamento", "Ciencias Exactas");
-        var matematicasCreditos = new RowAttribute("creditos", 4);
-        var matematicasRow = new Row(new RowAttribute[]{ matematicasId, matematicasNombre, matematicasDept, matematicasCreditos });
+        var inglesId = new RowAttribute("id", 1);
+        var inglesNombre = new RowAttribute("nombre", "Ingles");
+        var inglesDept = new RowAttribute("departamento", "Lenguas");
+        var inglesCreditos = new RowAttribute("creditos", 2);
+        var inglesRow = new Row(new RowAttribute[]{ inglesId, inglesNombre, inglesDept, inglesCreditos });
 
-        var espanolId = new RowAttribute("id", 10);
-        var espanolNombre = new RowAttribute("nombre", "Espanol");
-        var espanolDept = new RowAttribute("departamento", "Lengua");
-        var espanolCreditos = new RowAttribute("creditos", 3);
-        var espanolRow = new Row(new RowAttribute[]{ espanolId, espanolNombre, espanolDept, espanolCreditos });
+        var biofisicaId = new RowAttribute("id", 2);
+        var biofisicaNombre = new RowAttribute("nombre", "Biofisica");
+        var biofisicaDept = new RowAttribute("departamento", "CienciasExactas");
+        var biofisicaCreditos = new RowAttribute("creditos", 4);
+        var biofisicaRow = new Row(new RowAttribute[]{ biofisicaId, biofisicaNombre, biofisicaDept, biofisicaCreditos });
 
-        var civicaId = new RowAttribute("id", 1);
-        var civicaNombre = new RowAttribute("nombre", "Civica");
-        var civicaDept = new RowAttribute("departamento", "Ciencias Sociales");
-        var civicaCreditos = new RowAttribute("creditos", 1);
-        var civicaRow = new Row(new RowAttribute[]{ civicaId, civicaNombre, civicaDept, civicaCreditos });
+        var programacionId = new RowAttribute("id", 3);
+        var programacionNombre = new RowAttribute("nombre", "Programacion");
+        var programacionDept = new RowAttribute("departamento", "CienciasComputacionales");
+        var programacionCreditos = new RowAttribute("creditos", 4);
+        var programacionRow = new Row(new RowAttribute[]{ programacionId, programacionNombre, programacionDept, programacionCreditos });
 
-        var quimicaId = new RowAttribute("id", 4);
-        var quimicaNombre = new RowAttribute("nombre", "Quimica");
-        var quimicaDept = new RowAttribute("departamento", "Ciencias Exactas");
-        var quimicaCreditos = new RowAttribute("creditos", 4);
-        var quimicaRow = new Row(new RowAttribute[]{ quimicaId, quimicaNombre, quimicaDept, quimicaCreditos });
+        var servidoresId = new RowAttribute("id", 4);
+        var servidoresNombre = new RowAttribute("nombre", "Servidores");
+        var servidoresDept = new RowAttribute("departamento", "CienciasComputacionales");
+        var servidoresCreditos = new RowAttribute("creditos", 4);
+        var servidoresRow = new Row(new RowAttribute[]{ servidoresId, servidoresNombre, servidoresDept, servidoresCreditos });
 
         // ---------------------------------------------------------------
         // Registros de la tabla profesor
         // ---------------------------------------------------------------
 
-        var rogelioId = new RowAttribute("id", 1);
-        var rogelioNombre = new RowAttribute("nombre", "Rogelio");
-        var rogelioApellido = new RowAttribute("apellido", "Prendas");
-        var rogelioCiudad = new RowAttribute("ciudad", "Heredia");
-        var rogelioRow = new Row(new RowAttribute[]{ rogelioId, rogelioNombre, rogelioApellido, rogelioCiudad });
+        var marinId = new RowAttribute("id", 1);
+        var marinNombre = new RowAttribute("nombre", "Marin");
+        var marinApellido = new RowAttribute("apellido", "Pochet");
+        var marinCiudad = new RowAttribute("ciudad", "LeonXIII");
+        var marinRow = new Row(new RowAttribute[]{ marinId, marinNombre, marinApellido, marinCiudad });
 
 
-        var lorenaId = new RowAttribute("id", 2);
-        var lorenaNombre = new RowAttribute("nombre", "Lorena");
-        var lorenaApellido = new RowAttribute("apellido", "Benavides");
-        var lorenaCiudad = new RowAttribute("ciudad", "Alajuela");
-        var lorenaRow = new Row(new RowAttribute[]{ lorenaId, lorenaNombre, lorenaApellido, lorenaCiudad });
+        var melvinId = new RowAttribute("id", 2);
+        var melvinNombre = new RowAttribute("nombre", "Melvin");
+        var melvinApellido = new RowAttribute("apellido", "Quesada");
+        var melvinCiudad = new RowAttribute("ciudad", "SantaBarbara");
+        var melvinRow = new Row(new RowAttribute[]{ melvinId, melvinNombre, melvinApellido, melvinCiudad });
 
 
-        var belizaId = new RowAttribute("id", 4);
-        var belizaNombre = new RowAttribute("nombre", "Beliza");
-        var belizaApellido = new RowAttribute("apellido", "Cascante");
-        var belizaCiudad = new RowAttribute("ciudad", "San Carlos");
-        var belizaRow = new Row(new RowAttribute[]{ belizaId, belizaNombre, belizaApellido, belizaCiudad });
+        var alejandroId = new RowAttribute("id", 4);
+        var alejandroNombre = new RowAttribute("nombre", "Alejandro");
+        var alejandroApellido = new RowAttribute("apellido", "Barrantes");
+        var alejandroCiudad = new RowAttribute("ciudad", "SanRamon");
+        var alejandroRow = new Row(new RowAttribute[]{ alejandroId, alejandroNombre, alejandroApellido, alejandroCiudad });
 
 
-        var carmenId = new RowAttribute("id", 11);
-        var carmenNombre = new RowAttribute("nombre", "Carmen");
-        var carmenApellido = new RowAttribute("apellido", "Prendas");
-        var carmenCiudad = new RowAttribute("ciudad", "Puntarenas");
-        var carmenRow = new Row(new RowAttribute[]{ carmenId, carmenNombre, carmenApellido, carmenCiudad });
+        var allanId = new RowAttribute("id", 11);
+        var allanNombre = new RowAttribute("nombre", "Allan");
+        var allanApellido = new RowAttribute("apellido", "Nunez");
+        var allanCiudad = new RowAttribute("ciudad", "Jaco");
+        var allanRow = new Row(new RowAttribute[]{ allanId, allanNombre, allanApellido, allanCiudad });
         var tables = new HashMap<Class<? extends Entity>, Set<Row>>();
 
 
         tables.put(Estudiante.class, new HashSet<>() {{
-            add(juanRow);
-            add(mariaRow);
-            add(pedroRow);
-            add(raquelRow);
+            add(ronaldRow);
+            add(luciaRow);
+            add(josePabloRow);
+            add(manriqueRow);
         }});
 
         tables.put(Curso.class, new HashSet<>() {{
-            add(quimicaRow);
-            add(espanolRow);
-            add(matematicasRow);
-            add(civicaRow);
+            add(servidoresRow);
+            add(biofisicaRow);
+            add(inglesRow);
+            add(programacionRow);
 
         }});
 
         tables.put(Profesor.class, new HashSet<>() {{
-            add(carmenRow);
-            add(rogelioRow);
-            add(lorenaRow);
-            add(belizaRow);
+            add(allanRow);
+            add(marinRow);
+            add(melvinRow);
+            add(alejandroRow);
         }});
 
 

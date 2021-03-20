@@ -35,6 +35,9 @@ public class EstudianteServiceImpl implements EstudianteService {
         if(!estudiante.isPresent()) {
             this.estudianteDAO.save(e);
         }
+        else{
+            System.out.print("El estudiante ya existe.");
+        }
     }
 
     public Optional<Estudiante> updateStudent(Estudiante e) {
@@ -48,7 +51,7 @@ public class EstudianteServiceImpl implements EstudianteService {
     public void deleteStudent(int carne) {
         //TODO: validar que el carne exista en la BD. Si existe se borra
         Optional<Estudiante> estudiante = this.estudianteDAO.findById(carne);
-        if(!estudiante.isPresent()) {
+        if(estudiante.isPresent()) {
             this.estudianteDAO.delete(carne);
         }
     }
@@ -60,7 +63,6 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public List<Estudiante> getStudentsByLastName(String lastName) {
-        //TODO: implementarlo
         //validar que el lastName no sea nulo
         if (!lastName.isEmpty()){
             return this.estudianteDAO.findByLastName(lastName);

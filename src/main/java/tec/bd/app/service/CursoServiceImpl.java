@@ -62,7 +62,7 @@ public class CursoServiceImpl implements CursoService{
     public List<Curso> getCourseByDepartment(String department) {
 
         if (!department.isEmpty()){
-            return this.cursoDAO.findByDeparment(department);
+            return this.cursoDAO.findByDepartment(department);
         }
         return Collections.emptyList();
 

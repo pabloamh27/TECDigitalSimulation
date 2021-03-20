@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tec.bd.app.dao.ProfesorDAO;
-import tec.bd.app.domain.Estudiante;
+import tec.bd.app.domain.Curso;
 import tec.bd.app.domain.Profesor;
 
 import java.util.Collections;
@@ -72,12 +72,12 @@ public class ProfesorServiceImplTest {
 
         var ProfesorsBeforeSave = this.profesorService.getAll();
 
-        var roger = new Profesor(2, "Roger", "Martinez", "San Josesito");
-        profesorService.addNew(roger);
+        var allison = new Profesor(1, "Allison", "Ulate", "Paris");
+        profesorService.addNew(allison);
 
         var ProfesorsAfterSave = this.profesorService.getAll();
 
-        verify(this.profesorSetDAO, times(1)).save(roger);
+        verify(this.profesorSetDAO, times(1)).save(allison);
         assertThat(ProfesorsAfterSave.size()).isGreaterThan(ProfesorsBeforeSave.size());
     }
 
@@ -92,38 +92,46 @@ public class ProfesorServiceImplTest {
                 List.of(mock(Profesor.class), mock(Profesor.class))
         );
 
+        given(this.profesorSetDAO.findById(anyInt())).willReturn(Optional.of(mock(Profesor.class)));
+
         var ProfesorsBeforeSave = this.profesorService.getAll();
 
-        profesorService.deleteProfessor(1);
+        profesorService.deleteProfessor(10);
 
         var ProfesorsAfterSave = this.profesorService.getAll();
 
-        verify(this.profesorSetDAO, times(1)).delete(1);
+        verify(this.profesorSetDAO, times(1)).delete(10);
         assertThat(ProfesorsAfterSave.size()).isLessThan(ProfesorsBeforeSave.size());
     }
 
-//    @Test
-//    public void updateProfessor() throws Exception {
-//
-//        given(this.profesorSetDAO.findById(anyInt())).willReturn(
-//                Optional.of(mock(Profesor.class)),
-//                Optional.of(mock(Profesor.class))
-//        );
-//
-//        var profesorBefore = this.profesorService.getById(2);
-//
-//        var soledad = new Profesor(2, "Soledad", "Marioneta", "Alajuelita");
-//        profesorService.updateProfessor(soledad);
-//
-//        var profesorAfter = this.profesorService.getById(2);
-//
-//        verify(this.profesorSetDAO, times(1)).update(soledad);
-//        assertThat(profesorAfter).isNotSameAs(profesorBefore);
-//    }
+    @Test
+    public void updateProfessor() throws Exception {
+
+
+        given(this.profesorSetDAO.findById(anyInt())).willReturn(
+                Optional.of(mock(Profesor.class)),
+                Optional.of(mock(Profesor.class)));
+
+        var profesorBefore = this.profesorService.getById(2);
+
+        var john = new Profesor(2, "John", "Kikimora", "Escazu");
+        profesorService.updateProfessor(john);
+
+        var profesorAfter = this.profesorService.getById(2);
+
+        verify(this.profesorSetDAO, times(1)).update(john);
+        assertThat(profesorAfter).isNotSameAs(profesorBefore);
+    }
 
     @Test
     public void getProfessorsByCity() throws Exception {
-        //TODO: hay que implementarlo
+        given(this.profesorSetDAO.findByCity(anyString())).willReturn(List.of(
+                mock(Profesor.class), mock(Profesor.class), mock(Profesor.class)));
+
+        profesorService.getProfessorsByCity("Tegucigalpa");
+
+        verify(this.profesorSetDAO, times(1)).findByCity("Tegucigalpa");
+
     }
 
 }

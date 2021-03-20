@@ -21,29 +21,29 @@ public class CursoDAOImplTest {
     @BeforeEach
     public void setUp() throws Exception {
 
-        var calculoId = new RowAttribute("id", 1);
-        var calculoNombre = new RowAttribute("nombre", "Calculo");
-        var calculoDepartamento = new RowAttribute("departamento", "Ciencias exactas");
-        var calculoCreditos = new RowAttribute("creditos", 4);
-        var calculoRow = new Row(new RowAttribute[]{ calculoId, calculoNombre, calculoDepartamento, calculoCreditos });
+        var discretaId = new RowAttribute("id", 1);
+        var discretaNombre = new RowAttribute("nombre", "Discreta");
+        var discretaDepartamento = new RowAttribute("departamento", "CienciasExactas");
+        var discretaCreditos = new RowAttribute("creditos", 4);
+        var discretaRow = new Row(new RowAttribute[]{ discretaId, discretaNombre, discretaDepartamento, discretaCreditos });
 
-        var españolId = new RowAttribute("id", 2);
-        var españolNombre = new RowAttribute("nombre", "Español");
-        var españolDepartamento = new RowAttribute("departamento", "Lenguas");
-        var españolCreditos = new RowAttribute("creditos", 2);
-        var españolRow = new Row(new RowAttribute[]{ españolId, españolNombre, españolDepartamento, españolCreditos });
+        var inglesId = new RowAttribute("id", 2);
+        var inglesNombre = new RowAttribute("nombre", "Ingles");
+        var inglesDepartamento = new RowAttribute("departamento", "Lenguas");
+        var inglesCreditos = new RowAttribute("creditos", 2);
+        var inglesRow = new Row(new RowAttribute[]{ inglesId, inglesNombre, inglesDepartamento, inglesCreditos });
 
-        var civicaId = new RowAttribute("id", 3);
-        var civicaNombre = new RowAttribute("nombre", "Civica");
-        var civicaDepartamento = new RowAttribute("departamento", "Ciencias sociales");
-        var civicaCreditos = new RowAttribute("creditos", 1);
-        var civicaRow = new Row(new RowAttribute[]{ civicaId, civicaNombre, civicaDepartamento, civicaCreditos });
+        var estudiossocialesId = new RowAttribute("id", 3);
+        var estudiossocialesNombre = new RowAttribute("nombre", "EstudiosSociales");
+        var estudiossocialesDepartamento = new RowAttribute("departamento", "CienciasSociales");
+        var estudiossocialesCreditos = new RowAttribute("creditos", 1);
+        var estudiossocialesRow = new Row(new RowAttribute[]{ estudiossocialesId, estudiossocialesNombre, estudiossocialesDepartamento, estudiossocialesCreditos });
 
         var tables = new HashMap<Class<? extends Entity>, Set<Row>>();
         tables.put(Curso.class, new HashSet<>() {{
-            add(calculoRow);
-            add(españolRow);
-            add(civicaRow);
+            add(discretaRow);
+            add(inglesRow);
+            add(estudiossocialesRow);
         }});
         var setDB = new SetDB(tables);
         this.cursoDAO = new CursoDAOImpl(setDB, Curso.class);
@@ -59,20 +59,20 @@ public class CursoDAOImplTest {
     public void findById() throws Exception {
         var curso = this.cursoDAO.findById(3);
         assertThat(curso.get().getId()).isEqualTo(3);
-        assertThat(curso.get().getNombre()).isEqualTo("Civica");
-        assertThat(curso.get().getDepartamento()).isEqualTo("Ciencias sociales");
+        assertThat(curso.get().getNombre()).isEqualTo("EstudiosSociales");
+        assertThat(curso.get().getDepartamento()).isEqualTo("CienciasSociales");
         assertThat(curso.get().getCreditos()).isEqualTo(1);
     }
 
     @Test
     public void save() throws Exception {
-        this.cursoDAO.save(new Curso(5, "Fisica", "Ciencias exactas", 4));
+        this.cursoDAO.save(new Curso(5, "Fisica", "CienciasExactas", 4));
         var curso = this.cursoDAO.findById(5);
         assertThat(this.cursoDAO.findAll()).hasSize(4);
         assertThat(curso.isPresent()).isTrue();
         assertThat(curso.get().getId()).isEqualTo(5);
         assertThat(curso.get().getNombre()).isEqualTo("Fisica");
-        assertThat(curso.get().getDepartamento()).isEqualTo("Ciencias exactas");
+        assertThat(curso.get().getDepartamento()).isEqualTo("CienciasExactas");
         assertThat(curso.get().getCreditos()).isEqualTo(4);
     }
 
@@ -84,7 +84,7 @@ public class CursoDAOImplTest {
         var actual = this.cursoDAO.update(current.get());
         assertThat(this.cursoDAO.findAll()).hasSize(3);
         assertThat(actual.get().getId()).isEqualTo(3);
-        assertThat(actual.get().getNombre()).isEqualTo("Civica");
+        assertThat(actual.get().getNombre()).isEqualTo("EstudiosSociales");
         assertThat(actual.get().getDepartamento()).isEqualTo("Matematicas");
         assertThat(actual.get().getCreditos()).isEqualTo(6);
     }
@@ -95,5 +95,15 @@ public class CursoDAOImplTest {
         assertThat(this.cursoDAO.findAll()).hasSize(2);
     }
 
+    @Test
+    public void getByDepartment() throws Exception {
+        var cursos = this.cursoDAO.findByDepartment("Lenguas");
+        assertThat(cursos.get(0).getId()).isEqualTo(2);
+        assertThat(cursos.get(0).getNombre()).isEqualTo("Ingles");
+        assertThat(cursos.get(0).getDepartamento()).isEqualTo("Lenguas");
+        assertThat(cursos.get(0).getCreditos()).isEqualTo(2);
+    }
 
 }
+
+

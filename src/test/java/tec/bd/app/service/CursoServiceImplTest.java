@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CursoServiceImplTest {
 
     @Mock
-    private CursoDAO cursoSetDAO;
+    private CursoDAO cursoDAO;
 
     @InjectMocks
     private CursoServiceImpl cursoService;
@@ -35,11 +35,11 @@ public class CursoServiceImplTest {
     @Test
     public void whenNoDataInDB_thenNoResult() throws Exception {
 
-        given(this.cursoSetDAO.findAll()).willReturn(Collections.emptyList());
+        given(this.cursoDAO.findAll()).willReturn(Collections.emptyList());
 
         var cursos = this.cursoService.getAll();
 
-        verify(this.cursoSetDAO, times(1)).findAll();
+        verify(this.cursoDAO, times(1)).findAll();
 
         assertThat(cursos).hasSize(0);
     }
@@ -47,13 +47,13 @@ public class CursoServiceImplTest {
     @Test
     public void getAllTest() throws Exception {
 
-        given(this.cursoSetDAO.findAll()).willReturn(List.of(
+        given(this.cursoDAO.findAll()).willReturn(List.of(
                 mock(Curso.class), mock(Curso.class), mock(Curso.class)
         ));
         
         var cursos = this.cursoService.getAll();
 
-        verify(this.cursoSetDAO, times(1)).findAll();
+        verify(this.cursoDAO, times(1)).findAll();
 
         assertThat(cursos).hasSize(3);
 
@@ -65,65 +65,75 @@ public class CursoServiceImplTest {
         /*
         En la primera invocacion va a devolver una lista de 3 estudiantes. En la segunda una lista de 4
          */
-        given(this.cursoSetDAO.findAll()).willReturn(
+        given(this.cursoDAO.findAll()).willReturn(
                 List.of(mock(Curso.class), mock(Curso.class), mock(Curso.class)),
                 List.of(mock(Curso.class), mock(Curso.class), mock(Curso.class), mock(Curso.class))
         );
 
         var cursosBeforeSave = this.cursoService.getAll();
 
-        var fisica = new Curso(1, "Fisica", "Ciencias Exactas", 4);
+        var fisica = new Curso(1, "Quimica", "CienciasExactas", 4);
         cursoService.addNew(fisica);
 
         var cursosAfterSave = this.cursoService.getAll();
 
-        verify(this.cursoSetDAO, times(1)).save(fisica);
+        verify(this.cursoDAO, times(1)).save(fisica);
         assertThat(cursosAfterSave.size()).isGreaterThan(cursosBeforeSave.size());
     }
 
-//    @Test
-//    public void deleteCourse() throws Exception {
-//
-//        /*
-//        En la primera invocacion va a devolver una lista de 3 estudiantes. En la segunda una lista de 2
-//         */
-//        given(this.cursoSetDAO.findAll()).willReturn(
-//                List.of(mock(Curso.class), mock(Curso.class), mock(Curso.class)),
-//                List.of(mock(Curso.class), mock(Curso.class))
-//        );
-//
-//        var cursosBeforeSave = this.cursoService.getAll();
-//
-//        cursoService.deleteCourse(1);
-//
-//        var cursosAfterSave = this.cursoService.getAll();
-//
-//        verify(this.cursoSetDAO, times(1)).delete(1);
-//        assertThat(cursosAfterSave.size()).isLessThan(cursosBeforeSave.size());
-//    }
+    @Test
+    public void deleteCourse() throws Exception {
+
+        /*
+        En la primera invocacion va a devolver una lista de 3 estudiantes. En la segunda una lista de 2
+         */
+        given(this.cursoDAO.findAll()).willReturn(
+                List.of(mock(Curso.class), mock(Curso.class), mock(Curso.class)),
+                List.of(mock(Curso.class), mock(Curso.class))
+        );
+
+        given(this.cursoDAO.findById(anyInt())).willReturn(Optional.of(mock(Curso.class)));
+
+        var ProfesorsBeforeSave = this.cursoService.getAll();
+
+        cursoService.deleteCourse(1);
+
+        var ProfesorsAfterSave = this.cursoService.getAll();
+
+        verify(this.cursoDAO, times(1)).delete(1);
+        assertThat(ProfesorsAfterSave.size()).isLessThan(ProfesorsBeforeSave.size());
+    }
+
 
     @Test
     public void updateCourse() throws Exception {
 
-        given(this.cursoSetDAO.findById(anyInt())).willReturn(
+        given(this.cursoDAO.findById(anyInt())).willReturn(
                 Optional.of(mock(Curso.class)),
                 Optional.of(mock(Curso.class))
         );
 
+
+
         var cursoBefore = this.cursoService.getById(2);
 
-        var historia = new Curso(2, "Historia", "Ciencias Naturales", 3);
+        var historia = new Curso(2, "ApreciacionAlCine", "Cultura", 3);
         cursoService.updateCourse(historia);
 
         var cursoAfter = this.cursoService.getById(2);
 
-        verify(this.cursoSetDAO, times(1)).update(historia);
+        verify(this.cursoDAO, times(1)).update(historia);
         assertThat(cursoAfter).isNotSameAs(cursoBefore);
     }
 
     @Test
     public void getCourseByDepartment() throws Exception {
-        //TODO: hay que implementarlo
+        given(this.cursoDAO.findByDepartment(anyString())).willReturn(List.of(
+                mock(Curso.class), mock(Curso.class), mock(Curso.class)));
+
+        cursoService.getCourseByDepartment("Programacion");
+
+        verify(this.cursoDAO, times(1)).findByDepartment("Programacion");
     }
 
 }
