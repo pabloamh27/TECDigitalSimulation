@@ -17,7 +17,7 @@ public class CursoDAOImpl extends GenericDAOImpl<Curso, Integer> implements Curs
     }
 
     @Override
-    public List<Curso> findByDeparment(String departament) {
+    public List<Curso> findByDepartment(String departament) {
 
         List<Curso> listaPorDepartamento = new ArrayList<>();
         var curso =this.table.stream().map(this::rowToEntity).collect(Collectors.toList());

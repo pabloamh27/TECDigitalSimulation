@@ -23,29 +23,29 @@ public class ProfesorDAOImplTest {
     @BeforeEach
     public void setUp() throws Exception {
 
-        var juanId = new RowAttribute("id", 1);
-        var juanNombre = new RowAttribute("nombre", "Juan");
-        var juanApellido = new RowAttribute("apellido", "Perez");
-        var juanCiudad = new RowAttribute("ciudad", "Alajuela");
-        var juanRow = new Row(new RowAttribute[]{juanId, juanNombre, juanApellido, juanCiudad});
+        var carolinaId = new RowAttribute("id", 2);
+        var carolinaNombre = new RowAttribute("nombre", "Carolina");
+        var carolinaApellido = new RowAttribute("apellido", "Quiros");
+        var carolinaCiudad = new RowAttribute("ciudad", "TresRios");
+        var carolinaRow = new Row(new RowAttribute[]{carolinaId, carolinaNombre, carolinaApellido, carolinaCiudad});
 
-        var mariaId = new RowAttribute("id", 2);
-        var mariaNombre = new RowAttribute("nombre", "Maria");
-        var mariaApellido = new RowAttribute("apellido", "Rodriguez");
-        var mariaCiudad = new RowAttribute("ciudad", "Cartago");
-        var mariaRow = new Row(new RowAttribute[]{mariaId, mariaNombre, mariaApellido, mariaCiudad});
+        var lorenaId = new RowAttribute("id", 4);
+        var lorenaNombre = new RowAttribute("nombre", "Lorena");
+        var lorenaApellido = new RowAttribute("apellido", "Phelps");
+        var lorenaCiudad = new RowAttribute("ciudad", "Cartago");
+        var lorenaRow = new Row(new RowAttribute[]{lorenaId, lorenaNombre, lorenaApellido, lorenaCiudad});
 
-        var pedroId = new RowAttribute("id", 3);
-        var pedroNombre = new RowAttribute("nombre", "William");
-        var pedroApellido = new RowAttribute("apellido", "Williams");
-        var pedroCiudad = new RowAttribute("ciudad", "Heredia");
-        var pedroRow = new Row(new RowAttribute[]{pedroId, pedroNombre, pedroApellido, pedroCiudad});
+        var geraldId = new RowAttribute("id", 3);
+        var geraldNombre = new RowAttribute("nombre", "Gerald");
+        var geraldApellido = new RowAttribute("apellido", "OfRivia");
+        var geraldCiudad = new RowAttribute("ciudad", "Infiernillo");
+        var geraldRow = new Row(new RowAttribute[]{geraldId, geraldNombre, geraldApellido, geraldCiudad});
 
         var tables = new HashMap<Class<? extends Entity>, Set<Row>>();
         tables.put(Profesor.class, new HashSet<>() {{
-            add(juanRow);
-            add(mariaRow);
-            add(pedroRow);
+            add(carolinaRow);
+            add(lorenaRow);
+            add(geraldRow);
         }});
         var setDB = new SetDB(tables);
         this.profesorDAO = new ProfesorDAOImpl(setDB, Profesor.class);
@@ -61,9 +61,9 @@ public class ProfesorDAOImplTest {
     public void findById() throws Exception {
         var profe = this.profesorDAO.findById(3);
         assertThat(profe.get().getId()).isEqualTo(3);
-        assertThat(profe.get().getNombre()).isEqualTo("William");
-        assertThat(profe.get().getApellido()).isEqualTo("Williams");
-        assertThat(profe.get().getCiudad()).isEqualTo("Heredia");
+        assertThat(profe.get().getNombre()).isEqualTo("Gerald");
+        assertThat(profe.get().getApellido()).isEqualTo("OfRivia");
+        assertThat(profe.get().getCiudad()).isEqualTo("Infiernillo");
     }
 
     @Test
@@ -80,20 +80,29 @@ public class ProfesorDAOImplTest {
 
     @Test
     public void update() throws Exception {
-        var current = this.profesorDAO.findById(2);
-        current.get().setApellido("Rodriguez");
-        current.get().setCiudad("San Jose");
+        var current = this.profesorDAO.findById(4);
+        current.get().setApellido("Phelps");
+        current.get().setCiudad("SanJuan");
         var actual = this.profesorDAO.update(current.get());
         assertThat(this.profesorDAO.findAll()).hasSize(3);
-        assertThat(actual.get().getId()).isEqualTo(2);
-        assertThat(actual.get().getNombre()).isEqualTo("Maria");
-        assertThat(actual.get().getApellido()).isEqualTo("Rodriguez");
-        assertThat(actual.get().getCiudad()).isEqualTo("San Jose");
+        assertThat(actual.get().getId()).isEqualTo(4);
+        assertThat(actual.get().getNombre()).isEqualTo("Lorena");
+        assertThat(actual.get().getApellido()).isEqualTo("Phelps");
+        assertThat(actual.get().getCiudad()).isEqualTo("SanJuan");
     }
 
     @Test
     public void delete() throws Exception {
-        this.profesorDAO.delete(2);
+        this.profesorDAO.delete(4);
         assertThat(this.profesorDAO.findAll()).hasSize(2);
+    }
+
+    @Test
+    public void getByCity() throws Exception {
+        var profesores = this.profesorDAO.findByCity("TresRios");
+        assertThat(profesores.get(0).getId()).isEqualTo(2);
+        assertThat(profesores.get(0).getNombre()).isEqualTo("Carolina");
+        assertThat(profesores.get(0).getApellido()).isEqualTo("Quiros");
+        assertThat(profesores.get(0).getCiudad()).isEqualTo("TresRios");
     }
 }

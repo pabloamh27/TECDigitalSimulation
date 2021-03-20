@@ -39,13 +39,16 @@ public class ProfesorServiceImpl implements ProfesorService{
 
     @Override
     public Optional<Profesor> updateProfessor(Profesor p) {
+        if(this.getById(p.getId()).isPresent()){
+            return this.profesorDAO.update(p);
+        }
         return Optional.empty();
     }
 
     @Override
     public void deleteProfessor(int id) {
         Optional<Profesor> profesor = this.profesorDAO.findById(id);
-        if(!profesor.isPresent()) {
+        if(profesor.isPresent()) {
             this.profesorDAO.delete(id);
         }
 

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CursoDAO extends GenericDAO<Curso,Integer> {
 
-    List<Curso> findByDeparment(String departament);
+    List<Curso> findByDepartment(String departament);
 }
