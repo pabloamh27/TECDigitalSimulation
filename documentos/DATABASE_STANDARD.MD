@@ -2,31 +2,33 @@
 
 > ### Índice:
 >
-> > #### 1.[`Introducción y justificación`](###- Introducción y justificación).
+> > #### 1.  [`Introducción y justificación`](#Introducción y justificación).
 > >
-> > #### 2.[`Entidades`](###- Entidades).
+> > #### 2.  [`Entidades`](#Entidades).
 > >
-> > #### 3.[`Atributos`](###- Atributos).
+> > #### 3. [`Atributos`](#Atributos).
 > >
-> > #### 4.[`Tipos de datos a usar para atributos`](###- Tipos de datos a usar para atributos).
+> > #### 4. [`Tipos de datos a usar para atributos`](#Tipos de datos a usar para atributos).
 > >
-> > #### 5.[`Llaves primarias`](###- Llaves primarias).
+> > #### 5. [`Llaves primarias`](#Llaves primarias).
 > >
-> > #### 6.[`Llaves foraneas`](###- Llaves foráneas).
+> > #### 6. [`Llaves foraneas`](#Llaves foráneas).
 > > 
-> > #### 7.[`Índices`](###- Índices).
+> > #### 7. [`Índices`](#Índices).
 
 
 
-
+<a name= "Introducción y justificación"></a>
 
 > ### - Introducción y justificación
 >
 > ​	El uso de un estándar a la hora de programar en bases de datos es muy importante ya que este permite tener orden e uniformidad a lo largo del código, a continuación se describirá una propuesta de estándar a usar en MySQL 8 el cual tiene beneficios para una programación más ligera, rápida y con una sencilla comprensión de términos. Además es un estándar sencillo de adaptar a otras posibles aplicaciones fuera de MySQL 8.
 >
-> El estándar siguiente utilizará el idioma inglés ya que este es el más conocido de mundialmente, además vale mencionar que el estándar no reconocerá ni utilizará signos especiales o acentos como 'ñ' o las tildes del español u otros símbolos propios de otro idioma que no sea inglés. Adicionalmente se utilizará el guión bajo para separar palabras de una manera más sencilla, y la primer palabra se escribirá en letras en mayúscula, esto para acortar las búsquedas de nombres y facilidad a la hora de diferenciar los tipos, vale recalcar que la primer palabra de cada nombre esta reservada para el tipo de variable dentro de la base de datos. Se podría decir que es un estándar tipado. Se utilizará el collation and character set por default de MySQL 8.
+> El estándar siguiente utilizará el idioma inglés ya que este es el más conocido de mundialmente, además vale mencionar que el estándar no reconocerá ni utilizará signos especiales o acentos como 'ñ' o las tildes del español u otros símbolos propios de otro idioma que no sea inglés. Adicionalmente se utilizará el guión bajo para separar palabras de una manera más sencilla, y la primer palabra se escribirá en letras en mayúscula, esto para acortar las búsquedas de nombres y facilidad a la hora de diferenciar los tipos, vale recalcar que la primer palabra de cada nombre esta reservada para el tipo de variable dentro de la base de datos. Se podría decir que es un estándar tipado.
 
 
+
+<a name= "Entidades"></a>
 
 
 
@@ -54,6 +56,9 @@
 
 
 
+<a name= "Atributos"></a>
+
+
 
 > ### - Atributos
 >
@@ -76,7 +81,7 @@
 
 
 
-
+<a name= "Tipos de datos a usar para atributos"></a>
 > ### - Tipos de datos a usar para atributos
 >
 > > ​	Deben cumplir con las siguientes características:
@@ -97,7 +102,7 @@
 
 
 
-
+<a name= "Llaves primarias"></a>
 > ### - Llaves primarias
 >
 > > ##### - Descripción del estándar:
@@ -122,7 +127,7 @@
 
 
 
-
+<a name= "Llaves foráneas"></a>
 >### - Llaves foráneas
 >
 >> ##### - Descripción del estándar:
@@ -147,7 +152,7 @@
 
 
 
-
+<a name= "Índices"></a>
 > ### - Índices
 >
 > > ##### - Descripción del estándar:
