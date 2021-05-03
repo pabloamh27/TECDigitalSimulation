@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>tec.bd.app</groupId>
@@ -44,6 +44,16 @@
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
       <version>4.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sparkjava</groupId>
+      <artifactId>spark-core</artifactId>
+      <version>2.9.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.6</version>
     </dependency>
 
     <!--  Dependencias para pruebas  -->
@@ -124,37 +134,37 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
-          <!--          <configuration>-->
-          <!--            <skip>true</skip>-->
-          <!--          </configuration>-->
-          <!--          <executions>-->
-          <!--            <execution>-->
-          <!--              <id>unit-test</id>-->
-          <!--              <phase>test</phase>-->
-          <!--              <goals>-->
-          <!--                <goal>test</goal>-->
-          <!--              </goals>-->
-          <!--              <configuration>-->
-          <!--                <skip>false</skip>-->
-          <!--              </configuration>-->
-          <!--            </execution>-->
-          <!--            <execution>-->
-          <!--            <id>integration-tests</id>-->
-          <!--              <phase>integration-test</phase>-->
-          <!--              <goals>-->
-          <!--                <goal>test</goal>-->
-          <!--              </goals>-->
-          <!--              <configuration>-->
-          <!--                <skip>false</skip>-->
-          <!--                <excludes>-->
-          <!--                  <exclude>**/*Test.java</exclude>-->
-          <!--                </excludes>-->
-          <!--                <includes>-->
-          <!--                  <include>**/*IT.java</include>-->
-          <!--                </includes>-->
-          <!--              </configuration>-->
-          <!--            </execution>-->
-          <!--          </executions>-->
+<!--          <configuration>-->
+<!--            <skip>true</skip>-->
+<!--          </configuration>-->
+<!--          <executions>-->
+<!--            <execution>-->
+<!--              <id>unit-test</id>-->
+<!--              <phase>test</phase>-->
+<!--              <goals>-->
+<!--                <goal>test</goal>-->
+<!--              </goals>-->
+<!--              <configuration>-->
+<!--                <skip>false</skip>-->
+<!--              </configuration>-->
+<!--            </execution>-->
+<!--            <execution>-->
+<!--            <id>integration-tests</id>-->
+<!--              <phase>integration-test</phase>-->
+<!--              <goals>-->
+<!--                <goal>test</goal>-->
+<!--              </goals>-->
+<!--              <configuration>-->
+<!--                <skip>false</skip>-->
+<!--                <excludes>-->
+<!--                  <exclude>**/*Test.java</exclude>-->
+<!--                </excludes>-->
+<!--                <includes>-->
+<!--                  <include>**/*IT.java</include>-->
+<!--                </includes>-->
+<!--              </configuration>-->
+<!--            </execution>-->
+<!--          </executions>-->
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
