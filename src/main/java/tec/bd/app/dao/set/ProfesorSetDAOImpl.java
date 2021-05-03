@@ -1,18 +1,20 @@
-package tec.bd.app.dao;
+package tec.bd.app.dao.set;
 
+import tec.bd.app.dao.ProfesorDAO;
 import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.RowAttribute;
 import tec.bd.app.database.set.SetDB;
+import tec.bd.app.domain.Curso;
 import tec.bd.app.domain.Profesor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProfesorDAOImpl extends GenericDAOImpl<Profesor, Integer> implements ProfesorDAO {
+public class ProfesorSetDAOImpl extends GenericSetDAOImpl<Profesor, Integer> implements ProfesorDAO {
 
-    public ProfesorDAOImpl(SetDB setDB, Class<Profesor> clazz) {
-        super(setDB, clazz);
+    public ProfesorSetDAOImpl(SetDB setDB) {
+        super(setDB, Profesor.class);
     }
 
     @Override
@@ -43,13 +45,12 @@ public class ProfesorDAOImpl extends GenericDAOImpl<Profesor, Integer> implement
 
     @Override
     protected Row entityToRow(Profesor p) {
-
-        // conversiones de Estudiante a Row
+        // conversiones de Curso a Row
         return new Row(new RowAttribute[] {
                 new RowAttribute("id", p.getId()),
                 new RowAttribute("nombre", p.getNombre()),
                 new RowAttribute("apellido", p.getApellido()),
-                new RowAttribute("ciudad", p.getCiudad()) });
+                new RowAttribute("ciudad", p.getCiudad())
+        });
     }
 }
-

@@ -15,5 +15,4 @@ public interface GenericDAO<T, ID extends Serializable> {
     Optional<T> update(T t);
 
     void delete(ID id);
-
 }

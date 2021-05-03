@@ -1,9 +1,10 @@
-package tec.bd.app.dao;
+package tec.bd.app.dao.set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tec.bd.app.database.set.RowAttribute;
+import tec.bd.app.dao.set.GenericSetDAOImpl;
 import tec.bd.app.database.set.Row;
+import tec.bd.app.database.set.RowAttribute;
 import tec.bd.app.database.set.SetDB;
 import tec.bd.app.domain.Entity;
 
@@ -13,9 +14,9 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class GenericDAOImplTest {
+public class GenericSetDAOImplTest {
 
-    private GenericDAOImpl<Greeting, Integer> genericSetDAO;
+    private GenericSetDAOImpl<Greeting, Integer> genericSetDAO;
 
     @BeforeEach
     public void setUp() {
@@ -38,7 +39,7 @@ public class GenericDAOImplTest {
         SetDB setDB = new SetDB(Map.of(Greeting.class, greetingTable));
 
 
-        this.genericSetDAO = new GenericDAOImpl<>(setDB, Greeting.class) {
+        this.genericSetDAO = new GenericSetDAOImpl<>(setDB, Greeting.class) {
 
             @Override
             protected Greeting rowToEntity(Row row) {

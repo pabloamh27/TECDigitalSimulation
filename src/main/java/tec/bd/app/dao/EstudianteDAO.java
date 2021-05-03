@@ -2,10 +2,9 @@ package tec.bd.app.dao;
 
 import tec.bd.app.domain.Estudiante;
 
-
 import java.util.List;
 
-public interface EstudianteDAO extends GenericDAO<Estudiante, Integer>{
+public interface EstudianteDAO extends GenericDAO<Estudiante, Integer> {
 
     /**
      * Obtener todos los estudiantes por apellido
@@ -19,5 +18,6 @@ public interface EstudianteDAO extends GenericDAO<Estudiante, Integer>{
      * @return
      */
     List<Estudiante> findAllSortByLastName();
+
 
 }

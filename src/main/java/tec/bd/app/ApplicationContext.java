@@ -1,24 +1,35 @@
 package tec.bd.app;
 
+
 import tec.bd.app.dao.*;
+import tec.bd.app.dao.mysql.CursoMySqlDAOImpl;
+import tec.bd.app.dao.mysql.EstudianteMySqlDAOImpl;
+import tec.bd.app.dao.mysql.ProfesorMySqlDAOImpl;
+import tec.bd.app.dao.set.CursoSetDAOImpl;
+import tec.bd.app.dao.set.EstudianteSetDAOImpl;
+import tec.bd.app.dao.set.ProfesorSetDAOImpl;
+import tec.bd.app.database.mysql.DBProperties;
 import tec.bd.app.database.set.Row;
 import tec.bd.app.database.set.RowAttribute;
 import tec.bd.app.database.set.SetDB;
 import tec.bd.app.domain.Curso;
 import tec.bd.app.domain.Entity;
 import tec.bd.app.domain.Estudiante;
-import tec.bd.app.domain.Profesor;
 import tec.bd.app.service.*;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 public class ApplicationContext {
 
     private SetDB setDB;
+
     private EstudianteDAO estudianteDAO;
-    private EstudianteService estudianteServiceSet;
+    private EstudianteService estudianteService;
+
 
     private CursoDAO cursoDAO;
     private CursoService cursoService;
@@ -27,18 +38,34 @@ public class ApplicationContext {
     private ProfesorService profesorService;
 
 
+    private static final String DATABASE_PROPERTIES_FILE = "/database.properties";
+    private static final String CONNECTION_STRING_PROP = "database.url";
+    private static final String DB_USERNAME_PROP = "database.username";
+    private static final String DB_PASSWORD_PROP = "database.password";
+
+
     private ApplicationContext() {
 
     }
 
     public static ApplicationContext init() {
         ApplicationContext applicationContext = new ApplicationContext();
+//        Objetos que usan SetDB
         applicationContext.setDB = initSetDB();
         applicationContext.estudianteDAO = initEstudianteSetDAO(applicationContext.setDB);
-        applicationContext.estudianteServiceSet = initEstudianteSetService(applicationContext.estudianteDAO);
-        applicationContext.cursoDAO =  initCursoSetDAO(applicationContext.setDB);
-        applicationContext.cursoService = initCursoService(applicationContext.cursoDAO);
+        applicationContext.cursoDAO = initCursoSetDAO(applicationContext.setDB);
         applicationContext.profesorDAO = initProfesorSetDAO(applicationContext.setDB);
+
+//        Objetos que se conectan a MySQL
+        String dbPropertiesFilePath = applicationContext.getClass().getResource(DATABASE_PROPERTIES_FILE).getFile();
+        DBProperties databaseProperties = initDBProperties(dbPropertiesFilePath);
+        applicationContext.estudianteDAO = initEstudianteMysqlDAO(databaseProperties);
+        applicationContext.cursoDAO = initCursoMysqlDAO(databaseProperties);
+        applicationContext.profesorDAO = initProfesorMysqlDAO(databaseProperties);
+
+
+        applicationContext.estudianteService = initEstudianteService(applicationContext.estudianteDAO);
+        applicationContext.cursoService = initCursoService(applicationContext.cursoDAO);
         applicationContext.profesorService = initProfesorService(applicationContext.profesorDAO);
 
         return applicationContext;
@@ -46,167 +73,159 @@ public class ApplicationContext {
 
     private static SetDB initSetDB() {
         // Registros de la tabla estudiante
-        var ronaldId = new RowAttribute("id", 1);
-        var ronaldNombre = new RowAttribute("nombre", "Ronald");
-        var ronaldApellido = new RowAttribute("apellido", "Sequeira");
-        var ronaldEdad = new RowAttribute("edad", 59);
-        var ronaldRow = new Row(new RowAttribute[]{ ronaldId, ronaldNombre, ronaldApellido, ronaldEdad });
+        var juanId = new RowAttribute("id", 1);
+        var juanNombre = new RowAttribute("nombre", "Juan");
+        var juanApellido = new RowAttribute("apellido", "Perez");
+        var juanEdad = new RowAttribute("edad", 20);
+        var juanRow = new Row(new RowAttribute[]{ juanId, juanNombre, juanApellido, juanEdad });
 
-        var luciaId = new RowAttribute("id", 2);
-        var luciaNombre = new RowAttribute("nombre", "Lucia");
-        var luciaApellido = new RowAttribute("apellido", "Rojas");
-        var luciaEdad = new RowAttribute("edad", 94);
-        var luciaRow = new Row(new RowAttribute[]{ luciaId, luciaNombre, luciaApellido, luciaEdad });
+        var mariaId = new RowAttribute("id", 3);
+        var mariaNombre = new RowAttribute("nombre", "Maria");
+        var mariaApellido = new RowAttribute("apellido", "Rojas");
+        var mariaEdad = new RowAttribute("edad", 21);
+        var mariaRow = new Row(new RowAttribute[]{ mariaId, mariaNombre, mariaApellido, mariaEdad });
 
-        var josePabloId = new RowAttribute("id", 3);
-        var josePabloNombre = new RowAttribute("nombre", "JosePablo");
-        var josePabloApellido = new RowAttribute("apellido", "Sanabria");
-        var josePabloEdad = new RowAttribute("edad", 14);
-        var josePabloRow = new Row(new RowAttribute[]{ josePabloId, josePabloNombre, josePabloApellido, josePabloEdad });
+        var pedroId = new RowAttribute("id", 2);
+        var pedroNombre = new RowAttribute("nombre", "Pedro");
+        var pedroApellido = new RowAttribute("apellido", "Infante");
+        var pedroEdad = new RowAttribute("edad", 23);
+        var pedroRow = new Row(new RowAttribute[]{ pedroId, pedroNombre, pedroApellido, pedroEdad });
 
-        var manriqueId = new RowAttribute("id", 4);
-        var manriqueNombre = new RowAttribute("nombre", "Manrique");
-        var manriqueApellido = new RowAttribute("apellido", "Guillen");
-        var manriqueEdad = new RowAttribute("edad", 19);
-        var manriqueRow = new Row(new RowAttribute[]{ manriqueId, manriqueNombre, manriqueApellido, manriqueEdad });
+        var raquelId = new RowAttribute("id", 10);
+        var raquelNombre = new RowAttribute("nombre", "Raquel");
+        var raquelApellido = new RowAttribute("apellido", "Rojas");
+        var raquelEdad = new RowAttribute("edad", 25);
+        var raquelRow = new Row(new RowAttribute[]{ raquelId, raquelNombre, raquelApellido, raquelEdad });
 
         // ---------------------------------------------------------------
         // Registros de la tabla curso
         // ---------------------------------------------------------------
-        var inglesId = new RowAttribute("id", 1);
-        var inglesNombre = new RowAttribute("nombre", "Ingles");
-        var inglesDept = new RowAttribute("departamento", "Lenguas");
-        var inglesCreditos = new RowAttribute("creditos", 2);
-        var inglesRow = new Row(new RowAttribute[]{ inglesId, inglesNombre, inglesDept, inglesCreditos });
+        var basesDeDatosId = new RowAttribute("id", 1);
+        var basesDeDatosNombre = new RowAttribute("nombre", "Bases de Datos");
+        var basesDeDatosDepartamento = new RowAttribute("departamento", "Informatica");
+        var basesDeDatosCreditos = new RowAttribute("creditos", 4);
+        var basesDeDatos = new Row(new RowAttribute[]{ basesDeDatosId, basesDeDatosNombre, basesDeDatosDepartamento, basesDeDatosCreditos });
 
-        var biofisicaId = new RowAttribute("id", 2);
-        var biofisicaNombre = new RowAttribute("nombre", "Biofisica");
-        var biofisicaDept = new RowAttribute("departamento", "CienciasExactas");
-        var biofisicaCreditos = new RowAttribute("creditos", 4);
-        var biofisicaRow = new Row(new RowAttribute[]{ biofisicaId, biofisicaNombre, biofisicaDept, biofisicaCreditos });
+        var geneticaId = new RowAttribute("id", 10);
+        var geneticaNombre = new RowAttribute("nombre", "Genetica");
+        var geneticaDepartamento = new RowAttribute("departamento", "Biologia");
+        var geneticaCreditos = new RowAttribute("creditos", 4);
+        var genetica = new Row(new RowAttribute[]{ geneticaId, geneticaNombre, geneticaDepartamento, geneticaCreditos });
 
-        var programacionId = new RowAttribute("id", 3);
-        var programacionNombre = new RowAttribute("nombre", "Programacion");
-        var programacionDept = new RowAttribute("departamento", "CienciasComputacionales");
-        var programacionCreditos = new RowAttribute("creditos", 4);
-        var programacionRow = new Row(new RowAttribute[]{ programacionId, programacionNombre, programacionDept, programacionCreditos });
+        var introBioId = new RowAttribute("id", 20);
+        var introBioNombre = new RowAttribute("nombre", "Intro Biologia");
+        var introBioDepartamento = new RowAttribute("departamento", "Biologia");
+        var introBioCreditos = new RowAttribute("creditos", 4);
+        var introBio = new Row(new RowAttribute[]{ introBioId, introBioNombre, introBioDepartamento, introBioCreditos });
 
-        var servidoresId = new RowAttribute("id", 4);
-        var servidoresNombre = new RowAttribute("nombre", "Servidores");
-        var servidoresDept = new RowAttribute("departamento", "CienciasComputacionales");
-        var servidoresCreditos = new RowAttribute("creditos", 4);
-        var servidoresRow = new Row(new RowAttribute[]{ servidoresId, servidoresNombre, servidoresDept, servidoresCreditos });
 
         // ---------------------------------------------------------------
         // Registros de la tabla profesor
         // ---------------------------------------------------------------
 
-        var marinId = new RowAttribute("id", 1);
-        var marinNombre = new RowAttribute("nombre", "Marin");
-        var marinApellido = new RowAttribute("apellido", "Pochet");
-        var marinCiudad = new RowAttribute("ciudad", "LeonXIII");
-        var marinRow = new Row(new RowAttribute[]{ marinId, marinNombre, marinApellido, marinCiudad });
 
-
-        var melvinId = new RowAttribute("id", 2);
-        var melvinNombre = new RowAttribute("nombre", "Melvin");
-        var melvinApellido = new RowAttribute("apellido", "Quesada");
-        var melvinCiudad = new RowAttribute("ciudad", "SantaBarbara");
-        var melvinRow = new Row(new RowAttribute[]{ melvinId, melvinNombre, melvinApellido, melvinCiudad });
-
-
-        var alejandroId = new RowAttribute("id", 4);
-        var alejandroNombre = new RowAttribute("nombre", "Alejandro");
-        var alejandroApellido = new RowAttribute("apellido", "Barrantes");
-        var alejandroCiudad = new RowAttribute("ciudad", "SanRamon");
-        var alejandroRow = new Row(new RowAttribute[]{ alejandroId, alejandroNombre, alejandroApellido, alejandroCiudad });
-
-
-        var allanId = new RowAttribute("id", 11);
-        var allanNombre = new RowAttribute("nombre", "Allan");
-        var allanApellido = new RowAttribute("apellido", "Nunez");
-        var allanCiudad = new RowAttribute("ciudad", "Jaco");
-        var allanRow = new Row(new RowAttribute[]{ allanId, allanNombre, allanApellido, allanCiudad });
+        // Agregando las "tablas" a SetDB
         var tables = new HashMap<Class<? extends Entity>, Set<Row>>();
-
-
         tables.put(Estudiante.class, new HashSet<>() {{
-            add(ronaldRow);
-            add(luciaRow);
-            add(josePabloRow);
-            add(manriqueRow);
+            add(juanRow);
+            add(mariaRow);
+            add(pedroRow);
+            add(raquelRow);
         }});
 
+        // Agregar las filas de curso y estudiante a tables
         tables.put(Curso.class, new HashSet<>() {{
-            add(servidoresRow);
-            add(biofisicaRow);
-            add(inglesRow);
-            add(programacionRow);
-
+            add(basesDeDatos);
+            add(genetica);
+            add(introBio);
         }});
-
-        tables.put(Profesor.class, new HashSet<>() {{
-            add(allanRow);
-            add(marinRow);
-            add(melvinRow);
-            add(alejandroRow);
-        }});
-
+        // tables.put(Profesor.class, new HashSet<>() {{ ... }}
 
         return new SetDB(tables);
     }
 
-    //-------------------------------inits------------------------------------------------------------------
     private static EstudianteDAO initEstudianteSetDAO(SetDB setDB) {
-        return new EstudianteDAOImpl(setDB, Estudiante.class);
+        return new EstudianteSetDAOImpl(setDB);
+    }
+    private static CursoDAO initCursoSetDAO(SetDB setDB) {
+        return new CursoSetDAOImpl(setDB);
+    }
+    private static ProfesorDAO initProfesorSetDAO(SetDB setDB) { return new ProfesorSetDAOImpl(setDB); }
+
+
+
+
+    private static DBProperties initDBProperties(String dbPropertiesFilePath) {
+        try (InputStream propFileStream = new FileInputStream(dbPropertiesFilePath)) {
+            Properties properties = new Properties();
+            properties.load(propFileStream);
+            return new DBProperties(
+                    properties.getProperty(CONNECTION_STRING_PROP),
+                    properties.getProperty(DB_USERNAME_PROP),
+                    properties.getProperty(DB_PASSWORD_PROP)
+            );
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("No se puede cargar el archivo de propiedades de la base de datos");
+        }
     }
 
-    private static EstudianteService initEstudianteSetService(EstudianteDAO estudianteDAO) {
+    private static EstudianteDAO initEstudianteMysqlDAO(DBProperties dbProperties) {
+        return new EstudianteMySqlDAOImpl(dbProperties);
+    }
+
+    private static CursoDAO initCursoMysqlDAO(DBProperties dbProperties) {
+        return new CursoMySqlDAOImpl(dbProperties);
+    }
+
+    private static ProfesorDAO initProfesorMysqlDAO(DBProperties dbProperties) {
+        return new ProfesorMySqlDAOImpl(dbProperties);
+    }
+
+
+//    Servicios
+
+    private static EstudianteService initEstudianteService(EstudianteDAO estudianteDAO) {
         return new EstudianteServiceImpl(estudianteDAO);
     }
 
-    public static CursoDAO initCursoSetDAO(SetDB setDB){
-        return new CursoDAOImpl(setDB, Curso.class);
-    }
-
-    public static CursoService initCursoService(CursoDAO cursoDAO){
+    private static CursoService initCursoService(CursoDAO cursoDAO) {
         return new CursoServiceImpl(cursoDAO);
     }
 
-    public static ProfesorDAO initProfesorSetDAO(SetDB setDB){
-        return new ProfesorDAOImpl(setDB, Profesor.class);
-    }
-
-    public static ProfesorService initProfesorService(ProfesorDAO profesorDAO){
+    private static ProfesorService initProfesorService(ProfesorDAO profesorDAO) {
         return new ProfesorServiceImpl(profesorDAO);
     }
 
-    //-------------------------------getters------------------------------------------------------------------
+
+
     public SetDB getSetDB() {
         return this.setDB;
     }
 
-    public EstudianteDAO getEstudianteSetDAO() {
+    public EstudianteDAO getEstudianteDAO() {
         return this.estudianteDAO;
     }
 
-    public EstudianteService getEstudianteServiceSet() {
-        return this.estudianteServiceSet;
+    public EstudianteService getEstudianteService() {
+        return this.estudianteService;
     }
 
-    public CursoDAO getCursoSetDAO(){
+    public CursoDAO getCursoSetDAO() {
         return this.cursoDAO;
     }
 
-    public CursoService getCursoService(){
+    public CursoService getCursoService() {
         return this.cursoService;
     }
 
-    public ProfesorDAO getProfersorSetDAO() {
-        return this.profesorDAO;
+    public ProfesorDAO getProfesorDAO() {
+        return profesorDAO;
     }
 
     public ProfesorService getProfesorService() {
-        return this.profesorService;
+        return profesorService;
     }
+
+
 }

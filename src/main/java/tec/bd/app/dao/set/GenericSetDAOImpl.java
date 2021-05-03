@@ -1,4 +1,4 @@
-package tec.bd.app.dao;
+package tec.bd.app.dao.set;
 
 import tec.bd.app.dao.GenericDAO;
 import tec.bd.app.database.set.Row;
@@ -11,12 +11,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class GenericDAOImpl<T, ID extends Serializable> implements GenericDAO<T, ID> {
+public abstract class GenericSetDAOImpl<T, ID extends Serializable> implements GenericDAO<T, ID> {
 
     protected Set<Row> table;
     protected Class<T> clazz;
 
-    protected GenericDAOImpl(SetDB setDB, Class<T> clazz) {
+    protected GenericSetDAOImpl(SetDB setDB, Class<T> clazz) {
         Objects.requireNonNull(setDB);
         Objects.requireNonNull(clazz);
         this.clazz = clazz;

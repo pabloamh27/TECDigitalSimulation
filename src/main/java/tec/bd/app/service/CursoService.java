@@ -9,7 +9,7 @@ public interface CursoService {
 
     List<Curso> getAll();
 
-    Optional<Curso> getById(int Id);
+    Optional<Curso> getById(int id);
 
     void addNew(Curso c);
 
@@ -17,7 +17,7 @@ public interface CursoService {
 
     void deleteCourse(int id);
 
-    List<Curso> getCourseByDepartment(String department);
+    List<Curso> getByDepartment(String department);
 
 
 }

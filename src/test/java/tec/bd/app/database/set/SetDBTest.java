@@ -19,6 +19,7 @@ public class SetDBTest {
 
         // Para probar esto se puede pasar un clase que se sabe que no es suportada por el metodo
         var actual = setDB.getTableByClassName(HashSet.class);
+
         assertThat(actual).isEmpty();
     }
 

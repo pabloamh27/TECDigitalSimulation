@@ -24,7 +24,7 @@ public class EstudianteServiceImpl implements EstudianteService {
     public Optional<Estudiante> getById(int carne) {
 
         //TODO: validar el carne > 0. Si no cumple con eso se devuelve Optional.empty()
-        if (carne > 0){
+        if(carne > 0) {
             return this.estudianteDAO.findById(carne);
         }
         return Optional.empty();
@@ -35,14 +35,11 @@ public class EstudianteServiceImpl implements EstudianteService {
         if(!estudiante.isPresent()) {
             this.estudianteDAO.save(e);
         }
-        else{
-            System.out.print("El estudiante ya existe.");
-        }
     }
 
     public Optional<Estudiante> updateStudent(Estudiante e) {
         //TODO: validar que el carne exista en la BD. Si existe se actualiza
-        if(this.getById(e.getCarne()).isPresent()){
+        if(this.getById(e.getCarne()).isPresent()) {
             return this.estudianteDAO.update(e);
         }
         return Optional.empty();
@@ -50,11 +47,9 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     public void deleteStudent(int carne) {
         //TODO: validar que el carne exista en la BD. Si existe se borra
-        Optional<Estudiante> estudiante = this.estudianteDAO.findById(carne);
-        if(estudiante.isPresent()) {
-            this.estudianteDAO.delete(carne);
-        }
+        this.estudianteDAO.delete(carne);
     }
+
 
     public List<Estudiante> getStudentsSortedByLastName() {
 
@@ -70,5 +65,5 @@ public class EstudianteServiceImpl implements EstudianteService {
         return Collections.emptyList();
     }
 
-}
 
+}

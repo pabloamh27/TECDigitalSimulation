@@ -58,8 +58,7 @@ public class CursoServiceImpl implements CursoService{
         }
     }
 
-    @Override
-    public List<Curso> getCourseByDepartment(String department) {
+    public List<Curso> getByDepartment(String department) {
 
         if (!department.isEmpty()){
             return this.cursoDAO.findByDepartment(department);

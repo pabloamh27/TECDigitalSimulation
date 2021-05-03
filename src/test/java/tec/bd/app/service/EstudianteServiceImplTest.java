@@ -6,11 +6,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import tec.bd.app.dao.EstudianteDAO;
-import tec.bd.app.domain.Curso;
 import tec.bd.app.domain.Estudiante;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.*;
 public class EstudianteServiceImplTest {
 
     @Mock
-    private EstudianteDAO estudianteSetDAO;
+    private EstudianteDAO estudianteDAO;
 
     @InjectMocks
     private EstudianteServiceImpl estudianteService;
@@ -36,27 +36,27 @@ public class EstudianteServiceImplTest {
     @Test
     public void whenNoDataInDB_thenNoResult() throws Exception {
 
-        given(this.estudianteSetDAO.findAll()).willReturn(Collections.emptyList());
+        given(this.estudianteDAO.findAll()).willReturn(Collections.emptyList());
 
-        var Estudiantes = this.estudianteService.getAll();
+        var estudiantes = this.estudianteService.getAll();
 
-        verify(this.estudianteSetDAO, times(1)).findAll();
+        verify(this.estudianteDAO, times(1)).findAll();
 
-        assertThat(Estudiantes).hasSize(0);
+        assertThat(estudiantes).hasSize(0);
     }
 
     @Test
     public void getAllTest() throws Exception {
 
-        given(this.estudianteSetDAO.findAll()).willReturn(List.of(
+        given(this.estudianteDAO.findAll()).willReturn(List.of(
                 mock(Estudiante.class), mock(Estudiante.class), mock(Estudiante.class)
         ));
 
-        var Estudiantes = this.estudianteService.getAll();
+        var estudiantes = this.estudianteService.getAll();
 
-        verify(this.estudianteSetDAO, times(1)).findAll();
+        verify(this.estudianteDAO, times(1)).findAll();
 
-        assertThat(Estudiantes).hasSize(3);
+        assertThat(estudiantes).hasSize(3);
 
     }
 
@@ -64,21 +64,21 @@ public class EstudianteServiceImplTest {
     public void addNewStudent() throws Exception {
 
         /*
-        En la primera invocacion va a devolver una lista de 3 Estudiantes. En la segunda una lista de 4
+        En la primera invocacion va a devolver una lista de 3 estudiantes. En la segunda una lista de 4
          */
-        given(this.estudianteSetDAO.findAll()).willReturn(
+        given(this.estudianteDAO.findAll()).willReturn(
                 List.of(mock(Estudiante.class), mock(Estudiante.class), mock(Estudiante.class)),
                 List.of(mock(Estudiante.class), mock(Estudiante.class), mock(Estudiante.class), mock(Estudiante.class))
         );
 
         var studentsBeforeSave = this.estudianteService.getAll();
 
-        var maria = new Estudiante(10, "Maria", "Lopez", 85);
-        estudianteService.addNew(maria);
+        var karol = new Estudiante(2, "Karol", "Jimenez", new Date(), 21);
+        estudianteService.addNew(karol);
 
         var studentsAfterSave = this.estudianteService.getAll();
 
-        verify(this.estudianteSetDAO, times(1)).save(maria);
+        verify(this.estudianteDAO, times(1)).save(karol);
         assertThat(studentsAfterSave.size()).isGreaterThan(studentsBeforeSave.size());
     }
 
@@ -86,14 +86,12 @@ public class EstudianteServiceImplTest {
     public void deleteStudent() throws Exception {
 
         /*
-        En la primera invocacion va a devolver una lista de 3 Estudiantes. En la segunda una lista de 2
+        En la primera invocacion va a devolver una lista de 3 estudiantes. En la segunda una lista de 2
          */
-        given(this.estudianteSetDAO.findAll()).willReturn(
+        given(this.estudianteDAO.findAll()).willReturn(
                 List.of(mock(Estudiante.class), mock(Estudiante.class), mock(Estudiante.class)),
                 List.of(mock(Estudiante.class), mock(Estudiante.class))
         );
-
-        given(this.estudianteSetDAO.findById(anyInt())).willReturn(Optional.of(mock(Estudiante.class)));
 
         var studentsBeforeSave = this.estudianteService.getAll();
 
@@ -101,56 +99,40 @@ public class EstudianteServiceImplTest {
 
         var studentsAfterSave = this.estudianteService.getAll();
 
-        verify(this.estudianteSetDAO, times(1)).delete(2);
+        verify(this.estudianteDAO, times(1)).delete(2);
         assertThat(studentsAfterSave.size()).isLessThan(studentsBeforeSave.size());
     }
 
     @Test
     public void updateStudent() throws Exception {
 
-        given(this.estudianteSetDAO.findById(anyInt())).willReturn(
+        /*
+        En la primera invocacion va a devolver estudiante default y en la segunda invocacion el estudiante actualizado
+         */
+        given(this.estudianteDAO.findById(anyInt())).willReturn(
                 Optional.of(mock(Estudiante.class)),
                 Optional.of(mock(Estudiante.class))
         );
 
         var studentBefore = this.estudianteService.getById(2);
 
-        var soledad = new Estudiante(52, "Susana", "Horia", 102);
-        estudianteService.updateStudent(soledad);
+        var karol = new Estudiante(2, "Karol", "Jimenez", new Date(), 21);
+        estudianteService.updateStudent(karol);
 
-        var studentAfter = this.estudianteService.getById(52);
+        var studentAfter = this.estudianteService.getById(2);
 
-        verify(this.estudianteSetDAO, times(1)).update(soledad);
+        verify(this.estudianteDAO, times(1)).update(karol);
         assertThat(studentAfter).isNotSameAs(studentBefore);
     }
 
     @Test
     public void getStudentsSortedByLastName() throws Exception {
-        given(this.estudianteSetDAO.findAllSortByLastName()).willReturn(List.of(
-                mock(Estudiante.class), mock(Estudiante.class), mock(Estudiante.class)));
-
-        given(this.estudianteSetDAO.findAll()).willReturn(List.of(
-                mock(Estudiante.class), mock(Estudiante.class), mock(Estudiante.class)));
-
-        var studentsBeforeSave = this.estudianteService.getAll();
-
-        estudianteService.getStudentsSortedByLastName();
-
-        var studentsAfterSave = this.estudianteService.getStudentsSortedByLastName();
-
-        verify(this.estudianteSetDAO, times(2)).findAllSortByLastName();
-        assertThat(studentsAfterSave).isNotEqualTo(studentsBeforeSave);
-
+        //TODO: hay que implementarlo
     }
 
     @Test
     public void getStudentsByLastName() throws Exception {
-        given(this.estudianteSetDAO.findByLastName(anyString())).willReturn(List.of(
-                mock(Estudiante.class), mock(Estudiante.class), mock(Estudiante.class)));
-
-        estudianteService.getStudentsByLastName("Hikeru");
-
-        verify(this.estudianteSetDAO, times(1)).findByLastName("Hikeru");
+        //TODO: hay que implementarlo
     }
 
 }

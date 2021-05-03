@@ -1,6 +1,5 @@
 package tec.bd.app;
 
-
 import org.junit.jupiter.api.Test;
 
 
@@ -8,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit test for simple App.
  */
-public class AppTest
+public class AppTest 
 {
     /**
      * Rigorous Test :-)
