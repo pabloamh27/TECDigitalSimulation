@@ -2,6 +2,8 @@ Mi-TEC-Digital
 ==============
 [![Java CI with Maven](https://github.com/Litecore50/mi-tec-digital/actions/workflows/maven.yml/badge.svg)](https://github.com/Litecore50/mi-tec-digital/actions/workflows/maven.yml)
 ==============
+Last Release: 4.0
+==============
 Nombre: Pablo Munoz Hidalgo
 ==============
 Carne: 2020031899
@@ -21,3 +23,4 @@ Nota: 9.5. El código se ve bien y todo corre.
 ## Revisión de tarea 2
 
 Nota: 10
+
