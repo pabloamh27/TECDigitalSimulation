@@ -32,16 +32,16 @@ public class EstudianteMySqlDAOImpl extends GenericMySqlDAOImpl<Estudiante, Inte
     }
 
     @Override
-    public List<Estudiante> findByLastName(String lastName) {
+    public List<Estudiante> findByLastName(String apellido) {
         try {
             try (Connection connection = this.dbProperties.getConnection()) {
-                LOG.info(SQL_FINDBYLASTNAME_ESTUDIANTE);
                 try (Statement stmt = connection.createStatement()) {
                     //execute query
-                    try (ResultSet rs = stmt.executeQuery(SQL_FINDBYLASTNAME_ESTUDIANTE)) {
+                    var sql = String.format(SQL_FINDBYLASTNAME_ESTUDIANTE, apellido);
+                    LOG.info(sql);
+                    try (ResultSet rs = stmt.executeQuery(sql)) {
                         return this.resultSetToList(rs);
                     }
-
                 }
             }
         } catch (SQLException e) {

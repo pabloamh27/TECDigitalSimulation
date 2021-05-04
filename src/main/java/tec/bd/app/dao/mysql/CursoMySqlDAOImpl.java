@@ -37,10 +37,11 @@ public class CursoMySqlDAOImpl extends GenericMySqlDAOImpl<Curso, Integer> imple
     public List<Curso> findByDepartment(String department) {
         try {
             try (Connection connection = this.dbProperties.getConnection()) {
-                LOG.info(SQL_FINDBYDEPARTMENT_CURSO);
                 try (Statement stmt = connection.createStatement()) {
                     //execute query
-                    try (ResultSet rs = stmt.executeQuery(SQL_FINDBYDEPARTMENT_CURSO)) {
+                    var sql = String.format(SQL_FINDBYDEPARTMENT_CURSO, department);
+                    LOG.info(sql);
+                    try (ResultSet rs = stmt.executeQuery(sql)) {
                         return this.resultSetToList(rs);
                     }
                 }
@@ -48,6 +49,7 @@ public class CursoMySqlDAOImpl extends GenericMySqlDAOImpl<Curso, Integer> imple
         } catch (SQLException c) {
             LOG.error("Error when running {}", SQL_FINDBYDEPARTMENT_CURSO, c);
         }
+
         return Collections.emptyList();
     }
 
@@ -99,16 +101,17 @@ public class CursoMySqlDAOImpl extends GenericMySqlDAOImpl<Curso, Integer> imple
                     var sql = String.format(SQL_INSERT_CURSO,
                             curso.getId(),
                             curso.getNombre(),
-                            curso.getDepartamento(),
-                            curso.getCreditos()
+                            curso.getCreditos(),
+                            curso.getDepartamento()
+
                     );
                     LOG.info(sql);
                     int rowCount = stmt.executeUpdate(sql);
                     LOG.debug("{} fila agregada", rowCount);
                 }
             }
-        } catch (SQLException e) {
-            LOG.error("Error when running {}", SQL_INSERT_CURSO, e);
+        } catch (SQLException c) {
+            LOG.error("Error when running {}", SQL_INSERT_CURSO, c);
         }
     }
 
@@ -121,8 +124,8 @@ public class CursoMySqlDAOImpl extends GenericMySqlDAOImpl<Curso, Integer> imple
                     //execute query
                     var sql = String.format(SQL_UPDATE_CURSO,
                             curso.getNombre(),
-                            curso.getDepartamento(),
                             curso.getCreditos(),
+                            curso.getDepartamento(),
                             curso.getId()
                     );
                     LOG.info(sql);
@@ -133,8 +136,8 @@ public class CursoMySqlDAOImpl extends GenericMySqlDAOImpl<Curso, Integer> imple
                     }
                 }
             }
-        } catch (SQLException e) {
-            LOG.error("Error when running {}", SQL_UPDATE_CURSO, e);
+        } catch (SQLException c) {
+            LOG.error("Error when running {}", SQL_UPDATE_CURSO, c);
         }
 
         return Optional.empty();

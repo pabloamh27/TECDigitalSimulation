@@ -23,7 +23,7 @@ public class ProfesorMySqlDAOImpl extends GenericMySqlDAOImpl<Profesor, Integer>
     private static final String SQL_INSERT_PROFESOR = "insert into profesor(id, nombre, apellido, ciudad) values(%d, '%s', '%s', '%s')";
     private static final String SQL_UPDATE_PROFESOR = "update profesor set nombre = '%s', apellido = '%s', ciudad = '%s' where id = %d";
     private static final String SQL_DELETE_PROFESOR = "delete from profesor where id = %d";
-    private static final String SQL_FINDBYCITY_PROFESOR_ID = "select id, nombre, apellido, ciudad from profesor where ciudad = '%s'";
+    private static final String SQL_FINDBYCITY_PROFESOR = "select id, nombre, apellido, ciudad from profesor where ciudad = '%s'";
 
     private final DBProperties dbProperties;
 
@@ -32,20 +32,20 @@ public class ProfesorMySqlDAOImpl extends GenericMySqlDAOImpl<Profesor, Integer>
     }
 
     @Override
-    public List<Profesor> findByCity(String lastName) {
+    public List<Profesor> findByCity(String ciudad) {
         try {
             try (Connection connection = this.dbProperties.getConnection()) {
-                LOG.info(SQL_FINDBYCITY_PROFESOR_ID);
                 try (Statement stmt = connection.createStatement()) {
                     //execute query
-                    try (ResultSet rs = stmt.executeQuery(SQL_FINDBYCITY_PROFESOR_ID)) {
+                    var sql = String.format(SQL_FINDBYCITY_PROFESOR, ciudad);
+                    LOG.info(sql);
+                    try (ResultSet rs = stmt.executeQuery(sql)) {
                         return this.resultSetToList(rs);
                     }
-
                 }
             }
-        } catch (SQLException p) {
-            LOG.error("Error when running {}", SQL_FINDBYCITY_PROFESOR_ID, p);
+        } catch (SQLException e) {
+            LOG.error("Error when running {}", SQL_FINDBYCITY_PROFESOR, e);
         }
 
         return Collections.emptyList();
