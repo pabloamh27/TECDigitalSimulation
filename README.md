@@ -1,13 +1,12 @@
 Mi-TEC-Digital
 ==============
-[![Java CI with Maven](https://github.com/Litecore50/mi-tec-digital/actions/workflows/maven.yml/badge.svg)](https://github.com/Litecore50/mi-tec-digital/actions/workflows/maven.yml)
+[![Java CI with Maven de pana](https://github.com/Litecore50/mi-tec-digital/actions/workflows/maven.yml/badge.svg)](https://github.com/Litecore50/mi-tec-digital/actions/workflows/maven.yml)
 ==============
 Nombre: Pablo Munoz Hidalgo
 ==============
 Carne: 2020031899
 ==============
 Aplicación Demo para gestionar Estudiantes, Profesores y Cursos.
-
 
 ## Revisión de tarea 1
 
@@ -22,3 +21,4 @@ Nota: 9.5. El código se ve bien y todo corre.
 ## Revisión de tarea 2
 
 Nota: 10
+
