@@ -18,6 +18,7 @@ public interface EstudianteDAO extends GenericDAO<Estudiante, Integer>{
      * Listar todos los nombre de los estudiantes ordenados por apellido
      * @return
      */
+
     List<Estudiante> findAllSortByLastName();
 
 }
