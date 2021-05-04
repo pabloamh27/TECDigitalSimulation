@@ -2,6 +2,8 @@ Mi-TEC-Digital
 ==============
 [![Java CI with Maven de pana](https://github.com/Litecore50/mi-tec-digital/actions/workflows/maven.yml/badge.svg)](https://github.com/Litecore50/mi-tec-digital/actions/workflows/maven.yml)
 ==============
+Last Release: 4.0
+==============
 Nombre: Pablo Munoz Hidalgo
 ==============
 Carne: 2020031899
