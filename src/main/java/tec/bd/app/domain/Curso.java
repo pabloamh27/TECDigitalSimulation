@@ -1,32 +1,52 @@
 package tec.bd.app.domain;
 
-public class Curso implements Entity{
+public class Curso implements Entity {
 
-    private int id;
+    private Integer id;
     private String nombre;
     private String departamento;
     private int creditos;
 
-    public Curso(int id, String nombre, String departamento, int creditos) {
-        this.id = id;
-        this.nombre = nombre;
-        this.departamento = departamento;
-        this.creditos = creditos;
+    public Curso() {
+
     }
 
-    public int getId() { return id; }
+    public Curso(Integer id, String nombre, int creditos, String departamento) {
+        this.id = id;
+        this.nombre = nombre;
+        this.creditos = creditos;
+        this.departamento = departamento;
+    }
 
-    public void setId(int id) { this.id = id; }
+    public Integer getId() {
+        return id;
+    }
 
-    public String getNombre() { return nombre; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getDepartamento() { return departamento; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public void setDepartamento(String departamento) { this.departamento = departamento; }
+    public String getDepartamento() {
+        return departamento;
+    }
 
-    public int getCreditos() { return creditos; }
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
+    }
 
-    public void setCreditos(int creditos) { this.creditos = creditos; }
+    public int getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(int creditos) {
+        this.creditos = creditos;
+    }
 }

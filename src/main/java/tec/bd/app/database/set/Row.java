@@ -1,5 +1,6 @@
 package tec.bd.app.database.set;
 
+import java.util.Date;
 import java.util.stream.Stream;
 
 public class Row {
@@ -30,8 +31,11 @@ public class Row {
         return (String) this.attribute(name).getValue();
     }
 
+    public Date dateAttributeValue(String name) {
+        return (Date) this.attribute(name).getValue();
+    }
+
     public Long longAttributeValue(String name) {
         return (Long) this.attribute(name).getValue();
     }
-
 }
