@@ -17,12 +17,9 @@ ALTER TABLE
 CREATE TABLE `Rating`(
     `rating_value` INT NOT NULL,
     `review` TEXT NOT NULL,
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_id` INT UNSIGNED NOT NULL,
     `movie_id` INT NOT NULL
 );
-ALTER TABLE
-    `Rating` ADD PRIMARY KEY `rating_id_primary`(`id`);
 ALTER TABLE
     `Rating` ADD UNIQUE `rating_user_id_unique`(`user_id`);
 ALTER TABLE
