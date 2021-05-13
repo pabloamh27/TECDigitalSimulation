@@ -1,35 +1,43 @@
 CREATE TABLE `Movie`(
     `Id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `title` TEXT NOT NULL,
-    `release_date` DATE NOT NULL,
+    `title` VARCHAR(200) NOT NULL,
+    `release_date` DATETIME NOT NULL,
     `category_id` INT NOT NULL
 );
+
 ALTER TABLE
     `Movie` ADD PRIMARY KEY `movie_id_primary`(`Id`);
 ALTER TABLE
     `Movie` ADD UNIQUE `movie_category_id_unique`(`category_id`);
+
+
 CREATE TABLE `Category`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` TEXT NOT NULL
+    `name` VARCHAR(100) NOT NULL
 );
+
 ALTER TABLE
     `Category` ADD PRIMARY KEY `category_id_primary`(`id`);
 CREATE TABLE `Rating`(
     `rating_value` INT NOT NULL,
-    `review` TEXT NOT NULL,
+    `review` VARCHAR(255) NOT NULL,
     `user_id` INT UNSIGNED NOT NULL,
     `movie_id` INT NOT NULL
 );
+
 ALTER TABLE
     `Rating` ADD UNIQUE `rating_user_id_unique`(`user_id`);
 ALTER TABLE
     `Rating` ADD UNIQUE `rating_movie_id_unique`(`movie_id`);
+
 CREATE TABLE `User`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `first_name` TEXT NOT NULL,
-    `last_name` TEXT NOT NULL,
-    `username` TEXT NOT NULL
+    `first_name` VARCHAR(50) NOT NULL,
+    `last_name` VARCHAR(50) NOT NULL,
+    `username` VARCHAR(50) NOT NULL
 );
+
+
 ALTER TABLE
     `User` ADD PRIMARY KEY `user_id_primary`(`id`);
 ALTER TABLE
