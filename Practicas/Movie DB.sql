@@ -1,52 +1,85 @@
-DROP SCHEMA IF EXIST MOVIES DEFAULT CHARACTER SET utf8;
-USE MOVIES;
+drop schema if exists movies;
 
+create schema if not exists movies default character set utf8;
+use movies;
 
-CREATE TABLE `Movie`(
-    `Id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `title` VARCHAR(200) NOT NULL,
-    `release_date` DATETIME NOT NULL,
-    `category_id` INT NOT NULL
+drop table if exists movie;
+drop table if exists category;
+drop table if exists users;
+drop table if exists rating;
+
+create table if not exists category(
+	id int not null auto_increment,
+    category_name varchar(100) not null,
+    primary key(id)
 );
 
-ALTER TABLE
-    `Movie` ADD PRIMARY KEY `movie_id_primary`(`Id`);
-ALTER TABLE
-    `Movie` ADD UNIQUE `movie_category_id_unique`(`category_id`);
+create unique index category_name_idx on category (category_name asc);
 
 
-CREATE TABLE `Category`(
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(100) NOT NULL
+create table if not exists movie(
+	id int not null auto_increment,
+    title varchar(100) not null,
+    release_date datetime,
+    category_id int not null,
+    primary key(id),
+    constraint category_fk foreign key (category_id) references category(id)
 );
 
-ALTER TABLE
-    `Category` ADD PRIMARY KEY `category_id_primary`(`id`);
-CREATE TABLE `Rating`(
-    `rating_value` INT NOT NULL,
-    `review` VARCHAR(255) NOT NULL,
-    `user_id` INT UNSIGNED NOT NULL,
-    `movie_id` INT NOT NULL
+create unique index title_idx on movie (title asc);
+
+
+create table if not exists users(
+	id int not null auto_increment,
+    user_name varchar(100) not null,
+    first_name varchar(100),
+    last_name varchar(100),
+    primary key(id)
 );
 
-ALTER TABLE
-    `Rating` ADD UNIQUE `rating_user_id_unique`(`user_id`);
-ALTER TABLE
-    `Rating` ADD UNIQUE `rating_movie_id_unique`(`movie_id`);
+alter table users add fulltext(first_name);
+alter table users add fulltext(last_name);
 
-CREATE TABLE `User`(
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `first_name` VARCHAR(50) NOT NULL,
-    `last_name` VARCHAR(50) NOT NULL,
-    `username` VARCHAR(50) NOT NULL
+create table if not exists rating(
+	movie_id int not null,
+    score int not null,
+    review varchar(200),
+    user_id int not null,
+    constraint movie_fk foreign key (movie_id) references movie(id),
+	constraint user_fk foreign key (user_id) references users(id)
 );
 
+create unique index movie_idx on rating (movie_id asc);
+create unique index user_idx on rating (user_id asc);
 
-ALTER TABLE
-    `User` ADD PRIMARY KEY `user_id_primary`(`id`);
-ALTER TABLE
-    `Rating` ADD CONSTRAINT `rating_movie_id_foreign` FOREIGN KEY(`movie_id`) REFERENCES `Movie`(`Id`);
-ALTER TABLE
-    `Movie` ADD CONSTRAINT `movie_category_id_foreign` FOREIGN KEY(`category_id`) REFERENCES `Category`(`id`);
-ALTER TABLE
-    `Rating` ADD CONSTRAINT `rating_user_id_foreign` FOREIGN KEY(`user_id`) REFERENCES `User`(`id`);
+insert into category(category_name) values ('Fantasia');
+insert into category(category_name) values ('Sci-Fi');
+insert into category(category_name) values ('Anime/Animada');
+insert into category(category_name) values ('Documental');
+insert into category(category_name) values ('Belica');
+
+insert into users(user_name, first_name, last_name) values ('Puvlo','Pablo','Munoz');
+insert into users(user_name, first_name, last_name) values ('Elgatostream','Max','Hidalgo');
+insert into users(user_name, first_name, last_name) values ('Cirilla','La gata','de Pablo');
+insert into users(user_name, first_name, last_name) values ('Monstro Dixon','Taylor','Deyton');
+insert into users(user_name, first_name, last_name) values ('Rody506','Rodolfo','El Reno');
+
+insert into movie(title, release_date, category_id) values ('Interstellar','2018-01-05',2);
+insert into movie(title, release_date, category_id) values ('Pacific Rim','2020-02-07',2);
+insert into movie(title, release_date, category_id) values ('Kimetsu No Yaiba Mugen Train','2000-05-24',3);
+insert into movie(title, release_date, category_id) values ('Bambi','2015-08-25',3);
+insert into movie(title, release_date, category_id) values ('1917','2006-12-30',5);
+
+insert into rating(movie_id, user_id, score, review) values (1,1,5,'The best of the decade');
+insert into rating(movie_id, user_id, score, review) values (2,4,3,'Good but not the best');
+insert into rating(movie_id, user_id, score, review) values (3,5,4,'Emotional movie, good series');
+insert into rating(movie_id, user_id, score, review) values (4,2,2,'Overrated');
+insert into rating(movie_id, user_id, score, review) values (5,3,4,'Super cinematography and perfect montage');
+
+select * from category;
+select * from users;
+select * from movie;
+select * from rating;
+
+
+
