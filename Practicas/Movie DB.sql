@@ -49,8 +49,8 @@ create table if not exists rating(
 	constraint user_fk foreign key (user_id) references users(id)
 );
 
-create unique index movie_idx on rating (movie_id asc);
-create unique index user_idx on rating (user_id asc);
+create index movie_idx on rating (movie_id asc);
+create index user_idx on rating (user_id asc);
 
 insert into category(category_name) values ('Fantasia');
 insert into category(category_name) values ('Sci-Fi');
@@ -70,16 +70,36 @@ insert into movie(title, release_date, category_id) values ('Kimetsu No Yaiba Mu
 insert into movie(title, release_date, category_id) values ('Bambi','2015-08-25',3);
 insert into movie(title, release_date, category_id) values ('1917','2006-12-30',5);
 
-insert into rating(movie_id, user_id, score, review) values (1,1,5,'The best of the decade');
-insert into rating(movie_id, user_id, score, review) values (2,4,3,'Good but not the best');
-insert into rating(movie_id, user_id, score, review) values (3,5,4,'Emotional movie, good series');
-insert into rating(movie_id, user_id, score, review) values (4,2,2,'Overrated');
-insert into rating(movie_id, user_id, score, review) values (5,3,4,'Super cinematography and perfect montage');
+insert into rating(movie_id, user_id, score, review) values (3,1,5,'The best of the decade');
+insert into rating(movie_id, user_id, score, review) values (2,5,3,'Good but not the best');
+insert into rating(movie_id, user_id, score, review) values (3,1,4,'Emotional movie, good series');
+insert into rating(movie_id, user_id, score, review) values (4,4,2,'Overrated');
+insert into rating(movie_id, user_id, score, review) values (5,1,4,'Super cinematography and perfect montage');
 
-select * from category;
-select * from users;
-select * from movie;
-select * from rating;
+-- Punto A:
+
+select c.id, c.category_name from category as c left join movie as m on c.id = m.category_id where m.category_id is null;  
+
+-- Punto B:
+
+select c.id, c.category_name, count(r.movie_id = m.id) from category as c 
+inner join movie as m on c.id = m.category_id 
+inner join rating as r on m.id = r.movie_id
+group by c.id;
+
+-- Punto C:
+
+select category_name from category as c
+inner join movie as m on c.id = m.category_id
+inner join rating as r on m.id = r.movie_id
+where r.user_id = 1;
+
+-- Punto D:
+
+select * from movie as m left join rating as r on m.id = r.movie_id where r.movie_id is null;
+
+
+
 
 
 
