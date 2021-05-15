@@ -52,6 +52,10 @@ create table if not exists rating(
 create index movie_idx on rating (movie_id asc);
 create index user_idx on rating (user_id asc);
 
+-- ========
+-- Parte 1:
+-- ========
+
 insert into category(category_name) values ('Fantasia');
 insert into category(category_name) values ('Sci-Fi');
 insert into category(category_name) values ('Anime/Animada');
@@ -76,6 +80,14 @@ insert into rating(movie_id, user_id, score, review) values (3,1,4,'Emotional mo
 insert into rating(movie_id, user_id, score, review) values (4,4,2,'Overrated');
 insert into rating(movie_id, user_id, score, review) values (5,1,4,'Super cinematography and perfect montage');
 
+-- ==============================================================================================
+--                        Empieza lo tuanis, osea el quiz
+-- ==============================================================================================
+
+-- ========
+-- Parte 2:
+-- ========
+
 -- Punto A:
 
 select c.id, c.category_name from category as c left join movie as m on c.id = m.category_id where m.category_id is null;  
@@ -98,8 +110,61 @@ where r.user_id = 1;
 
 select * from movie as m left join rating as r on m.id = r.movie_id where r.movie_id is null;
 
+-- ========
+-- Parte 3:
+-- ========
+
+-- Punto A:
+
+drop function if exists number_of_ratings;
+
+DELIMITER $$
+create function number_of_ratings(id int) returns int reads sql data
+begin
+    declare cantidad int;
+    select count(r.review) into cantidad from rating as r where r.movie_id = id;
+    return(cantidad);
+end $$
+DELIMITER ;
+
+select number_of_ratings(3);
+
+-- Punto B:
+
+drop procedure if exists defaults;
+
+DELIMITER $$
+create procedure defaults(
+	in nombre varchar(30)
+)
+begin
+	case nombre
+		when 'movie' then update movie set release_date = now() where release_date is null;
+        when 'rating' then update rating set review = '' where review is null;
+        else select 'La tabla no esta en la Base de datos actual';
+	end case;
+end $$
+DELIMITER ;
+
+-- Aqui tiene que desactivar una vara que hace updates seguros porque es una clave entonces, se mete a edit>preferencias>SQL Editor> 'Safe updates' (Desactiva) 
+
+-- Punto C:
+
+drop function if exists movie_rating_avg;
+
+DELIMITER $$
+create function movie_rating_avg(id int) returns int reads sql data
+begin
+	declare average int;
+    select round(avg(r.score)) into average from rating as r where r.movie_id = id;
+    return average;
+end$$
+DELIMITER ;
+
+select movie_rating_avg(2);
 
 
-
+-- Quiz 4 Pablo Munoz Hidalgo - 2020031899
+-- Bases de datos 1
 
 
