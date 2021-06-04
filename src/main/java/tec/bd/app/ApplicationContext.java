@@ -2,9 +2,9 @@ package tec.bd.app;
 
 
 import tec.bd.app.dao.*;
-import tec.bd.app.dao.mysql.CursoMySqlDAOImpl;
-import tec.bd.app.dao.mysql.EstudianteMySqlDAOImpl;
-import tec.bd.app.dao.mysql.ProfesorMySqlDAOImpl;
+import tec.bd.app.dao.mysql.routine.CursoMySqlDAOImpl;
+import tec.bd.app.dao.mysql.routine.EstudianteMySqlDAOImpl;
+import tec.bd.app.dao.mysql.routine.ProfesorMySqlDAOImpl;
 import tec.bd.app.dao.set.CursoSetDAOImpl;
 import tec.bd.app.dao.set.EstudianteSetDAOImpl;
 import tec.bd.app.dao.set.ProfesorSetDAOImpl;

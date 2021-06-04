@@ -110,52 +110,256 @@ insert into tutor(estudiante_id, profesor_id) values(1, 2);
 insert into tutor(estudiante_id, profesor_id) values(8, 2);
 insert into tutor(estudiante_id, profesor_id) values(3, 3);
 
-
-
-select * from departamento;
-select * from profesor;
-select * from estudiante;
-select * from tutor;
-
--- alter table
 alter table estudiante add column fecha_nacimiento timestamp not null after total_creditos;
+update estudiante set fecha_nacimiento = '2000-08-08' where id in (1,2,3,4,5,6,7,8,9, 10);
+select * from estudiante;
 
--- updates
+-- PROYECTO 
 
-update estudiante set fecha_nacimiento = '2000-08-08' where id in (2,3,4,5,6,7,8,9, 10);
-
-
-select nombre, apellido from estudiante where apellido like 'Biarreta';
-
-select 
-concat(e.nombre, ' ', e.apellido) as `estudiante`,
-concat(p.nombre, ' ', p.apellido) as `profesor`
-from 
-estudiante as e 
-join tutor as t on t.estudiante_id = e.id 
-join profesor as p on profesor_id = p.id;
+-- ///////////////////////////////// STUDENT PROCEDURES //////////////////////////////////////////
+drop procedure if exists all_students;
+delimiter $$
+create procedure all_students()
+begin
+	select id, nombre, apellido, fecha_nacimiento, total_creditos from estudiante;
+end
+$$
+delimiter ;
 
 
-select e.nombre, e.apellido
-from 
-estudiante e 
-join tutor t on e.id = t.estudiante_id
-join profesor p on p.id = t.profesor_id
-where
-p.nombre = 'Allan'
-;
 
-select *
-from 
-estudiante e 
-join tutor t on e.id = t.estudiante_id
-;
 
-delete from tutor where estudiante_id = 1;
-delete from estudiante where id = 1;
+drop procedure if exists student_by_id;
+delimiter $$
+create procedure student_by_id(in student_id int)
+begin
+	select id, nombre, apellido, fecha_nacimiento, total_creditos from estudiante where id = student_id;
+end
+$$
+delimiter ;
 
-select current_date;
 
-select id, nombre, apellido, fecha_nacimiento, total_creditos from estudiante where apellido = 'Biarreta';
 
+drop procedure if exists add_student;
+delimiter $$
+create procedure add_student(in student_id int, student_name text, student_apellido text, student_fecha_nacimiento timestamp, student_total_creditos int)
+begin
+	start transaction;
+    insert into estudiante (id, nombre, apellido, fecha_nacimiento, total_creditos) values (student_id, student_name, student_apellido, student_fecha_nacimiento, student_total_creditos);
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+drop procedure if exists update_student;
+delimiter $$
+create procedure update_student(in student_id int, student_name text, student_apellido text, student_fecha_nacimiento timestamp, student_total_creditos int)
+begin
+	start transaction;
+    update estudiante set nombre = student_name, apellido = student_apellido, fecha_nacimiento = student_fecha_nacimiento, total_creditos = student_total_creditos where id = student_id;
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+
+
+drop procedure if exists delete_student;
+delimiter $$
+create procedure delete_student(in student_id int)
+begin
+	start transaction;
+    delete from estudiante where id = student_id;
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+drop procedure if exists find_by_last_name_student;
+delimiter $$
+create procedure find_by_last_name_student(in student_apellido text)
+begin
+	start transaction;
+    select id, nombre, apellido, fecha_nacimiento, total_creditos from estudiante where apellido = student_apellido;
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+drop procedure if exists order_by_last_name_student;
+delimiter $$
+create procedure order_by_last_name_student()
+begin
+	start transaction;
+    select id, nombre, apellido, fecha_nacimiento, total_creditos from estudiante order by apellido asc;
+    commit;
+end
+$$
+delimiter ;
+
+-- ///////////////////////////////// COURSES PROCEDURES //////////////////////////////////////////
+
+drop procedure if exists all_courses;
+delimiter $$
+create procedure all_courses()
+begin
+	select id, nombre, creditos, departamento from curso;
+end
+$$
+delimiter ;
+
+
+drop procedure if exists course_by_id;
+delimiter $$
+create procedure course_by_id(in course_id int)
+begin
+	select id, nombre, creditos, departamento from curso where id = course_id;
+end
+$$
+delimiter ;
+
+
+
+drop procedure if exists add_course;
+delimiter $$
+create procedure add_course(in course_id int, course_name text, course_creditos int, course_department text)
+begin
+	start transaction;
+    insert into curso (id, nombre, creditos, departamento) values (course_id, course_name, course_creditos, course_department);
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+drop procedure if exists update_course;
+delimiter $$
+create procedure update_course(in course_id int, course_name text, course_creditos int, course_department text)
+begin
+	start transaction;
+    update curso set nombre = course_name, creditos = course_creditos, departamento = course_department where id = course_id;
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+
+
+drop procedure if exists delete_course;
+delimiter $$
+create procedure delete_course(in course_id int)
+begin
+	start transaction;
+    delete from curso where id = course_id;
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+drop procedure if exists find_by_department_course;
+delimiter $$
+create procedure find_by_department_course(in course_departamento text)
+begin
+    select id, nombre, creditos, departamento from curso where departamento = course_departamento;
+end
+$$
+delimiter ;
+
+
+
+-- ///////////////////////////////// PROFESSOR PROCEDURES //////////////////////////////////////////
+
+drop procedure if exists all_professors;
+delimiter $$
+create procedure all_professors()
+begin
+	select id, nombre, apellido, ciudad from profesor;
+end
+$$
+delimiter ;
+
+
+drop procedure if exists professor_by_id;
+delimiter $$
+create procedure professor_by_id(in professor_id int)
+begin
+	select id, nombre, apellido, ciudad from profesor where id = professor_id;
+end
+$$
+delimiter ;
+
+
+
+drop procedure if exists add_professor;
+delimiter $$
+create procedure add_professor(in professor_id int, professor_name text, professor_apellido text, professor_ciudad text)
+begin
+	start transaction;
+    insert into profesor (id, nombre, apellido, ciudad) values (professor_id, professor_name, professor_apellido, professor_ciudad);
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+drop procedure if exists update_professor;
+delimiter $$
+create procedure update_professor(in professor_id int, professor_name text, professor_apellido text, professor_ciudad text)
+begin
+	start transaction;
+    update profesor set nombre = professor_name, apellido = professor_apellido, ciudad = professor_ciudad where id = professor_id;
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+
+
+drop procedure if exists delete_professor;
+delimiter $$
+create procedure delete_professor(in professor_id int)
+begin
+	start transaction;
+    delete from profesor where id = professor_id;
+    commit;
+end
+$$
+delimiter ;
+
+
+
+
+drop procedure if exists find_by_city_professor;
+delimiter $$
+create procedure find_by_city_professor(in professor_ciudad text)
+begin
+    select id, nombre, apellido, ciudad from profesor where ciudad = professor_ciudad;
+end
+$$
+delimiter ;
 
