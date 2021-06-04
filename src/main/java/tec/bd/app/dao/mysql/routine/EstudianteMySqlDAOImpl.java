@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import tec.bd.app.dao.EstudianteDAO;
 import tec.bd.app.database.mysql.DBProperties;
 import tec.bd.app.domain.Estudiante;
+import tec.bd.app.service.EstudianteService;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
 
 public class EstudianteMySqlDAOImpl extends GenericMySqlDAOImpl<Estudiante, Integer> implements EstudianteDAO {
 
@@ -104,18 +106,21 @@ public class EstudianteMySqlDAOImpl extends GenericMySqlDAOImpl<Estudiante, Inte
 
     @Override
     public Optional<Estudiante> update(Estudiante estudiante) {
+
         try (Connection connection = this.dbProperties.getConnection();
              CallableStatement stmt = connection.prepareCall(SQL_UPDATE_ESTUDIANTE)){
+            connection.setAutoCommit(false);
             SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
             String stringfecha = fecha.format(estudiante.getFechaNacimiento());
             java.sql.Date sqlfecha = java.sql.Date.valueOf(stringfecha);
-
             stmt.setInt(1, estudiante.getId());
             stmt.setString(2, estudiante.getNombre());
             stmt.setString(3, estudiante.getApellido());
             stmt.setDate(4, sqlfecha);
             stmt.setInt(5, estudiante.getTotalCreditos());
             stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             LOG.error("Error when running {}", SQL_UPDATE_ESTUDIANTE, e);
         }

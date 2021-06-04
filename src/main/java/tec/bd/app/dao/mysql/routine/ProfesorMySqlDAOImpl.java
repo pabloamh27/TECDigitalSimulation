@@ -90,12 +90,14 @@ public class ProfesorMySqlDAOImpl extends GenericMySqlDAOImpl<Profesor, Integer>
 
         try (Connection connection = this.dbProperties.getConnection();
              CallableStatement stmt = connection.prepareCall(SQL_UPDATE_PROFESOR)){
-
+            connection.setAutoCommit(false);
             stmt.setInt(1, profesor.getId());
             stmt.setString(2, profesor.getNombre());
             stmt.setString(3, profesor.getApellido());
             stmt.setString(4, profesor.getCiudad());
             stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             LOG.error("Error when running {}", SQL_UPDATE_PROFESOR, e);
         }

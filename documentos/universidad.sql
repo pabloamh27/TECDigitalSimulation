@@ -363,3 +363,15 @@ end
 $$
 delimiter ;
 
+
+-- ///////////////////////////////// USER CREATION //////////////////////////////////////////
+
+
+
+
+use universidad;
+drop user 'universidad_user';
+create user 'universidad_user' identified by 'universidad_pass';
+grant insert, delete, update on universidad.* to 'universidad_user';
+grant execute on universidad.* to 'universidad_user';
+flush privileges;

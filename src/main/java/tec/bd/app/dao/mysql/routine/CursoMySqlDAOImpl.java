@@ -93,12 +93,14 @@ public class CursoMySqlDAOImpl extends GenericMySqlDAOImpl<Curso, Integer> imple
     public Optional<Curso> update(Curso curso) {
         try (Connection connection = this.dbProperties.getConnection();
              CallableStatement stmt = connection.prepareCall(SQL_UPDATE_CURSO)){
-
+            connection.setAutoCommit(false);
             stmt.setInt(1, curso.getId());
             stmt.setString(2, curso.getNombre());
             stmt.setInt(3, curso.getCreditos());
             stmt.setString(4, curso.getDepartamento());
             stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException c) {
             LOG.error("Error when running {}", SQL_UPDATE_CURSO, c);
         }
