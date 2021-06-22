@@ -28,3 +28,11 @@ Nota: 10
 ## Revisión de tarea 4
 
 Nota: 10
+
+## Revisión de proyecto-2
+
+- El archivo mysqldump no contenía la definición de los procedimientos almacenados
+- Se utilizó el archivo documentos/universidad.sql para crear la definición de la base de datos y los usuarios
+- A la definición de los usuarios les faltó la parte del host
+
+Nota: 8
